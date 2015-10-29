@@ -1,0 +1,5 @@
+\select@language {USenglish}
+\contentsline {section}{\numberline {1}Autopilot design}{2}
+\contentsline {subsection}{\numberline {1.1}Heading autopilot}{2}
+\contentsline {subsection}{\numberline {1.2}Speed autopilot}{2}
+\contentsline {section}{\numberline {2}Optimal Control of Pitch and Travel without Feedback}{3}
