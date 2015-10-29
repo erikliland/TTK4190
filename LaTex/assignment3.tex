@@ -1,0 +1,42 @@
+\documentclass[11pt,a4paper,USenglish]{article}
+\usepackage{babel}
+\usepackage{amsmath,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage[round]{natbib}
+\usepackage{tocbibind}
+\usepackage[thinspace,amssymb]{SIunits}
+\usepackage{listings, courier, color}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{libertine}
+\usepackage{fancyref}
+\usepackage{newtxmath}
+\usepackage{afterpage}
+\usepackage[T1]{fontenc}
+\graphicspath{{../}}
+\lstset{inputpath={../}}
+\usepackage[hidelinks,bookmarksnumbered]{hyperref} % Always load last
+
+\studentnumbers{736698, 742388, 742367, 755875 and 731918}
+\groupnumber{17}
+\date{May 1, 2015}
+
+\begin{document} 
+ 
+\makelabreportfrontpage
+\afterpage{\null\newpage}
+\include{abstract} 
+\tableofcontents
+\include{intro}
+\include{problem_descr}
+\include{problem1}
+\include{problem2}
+\include{discussion}
+\include{conclusion}
+
+\clearpage
+\bibliographystyle{apalike}
+\bibliography{helibib}\label{sec:bibliography}
+
+\end{document}

@@ -1,0 +1,22 @@
+\section{Intro}
+\subsection{Modelling and linearization}
+In this lab we will be using optimization theory to compute an optimal trajectory, with a corresponding input, for a small helicopter. We do this by deriving a non-linear model for
+the system dynamics, and linearizing around an equilibrium. This method is widely used in
+control theory and works well if the system operates close to the linearization point. We linearize once about a fixed equilibrium, but a possibility is to redo the linearization as new measurements of the system are made.
+
+\subsection{Optimal control, limitations without feedback}
+Optimization theory is used in many applications, from economy and production planning to control theory. In this lab we will be looking at the last application, and how it can be used to solve control theory problems. The main difference between optimal control and a conventional error-feedback controller, is the ability to ``look into the future'', as opposed to only using the current state.
+
+While a conventional regulator will calculate an error and correct the input thereafter, a planned trajectory from an optimization problem will contain inputs for the complete horizon. However, straightforward application of the optimal input sequence will rarely give good results, as modelling errors will cause the system to deviate from the optimal trajectory.
+
+\subsection{Optimal control with feedback}
+To compensate for modelling errors, it is useful to include some form of output feedback to correct
+the system towards the planned trajectory. In this lab we use a linear-quadratic regulator, which minimizes a quadratic criteria given by tuning-friendly weight matrices. As long as the system is following the calculated planned trajectory, the original input sequence is used. If the system deviates from the trajectory, the input will be modified by a feedback term.
+
+\subsection{Optimal control with non-linear constraints, and thoughts on MPC}
+A common application of optimal control is to implement constraints on the system state or input.
+For instance, to avoid an object or limit the usage of motor thrust. Such constraints can be non-linear, which will significantly increase the time it takes to solve the optimization problem.
+This is not a concern if the trajectory is only computed once before running the system.
+
+However when using MPC, which recomputes the horizon at each time step as measurements are made, the computation time becomes a problem. While state of the art solvers show promising results, they
+are currently difficult to implement on restrictive hardware, such as low-power microcontrollers.
