@@ -107,21 +107,6 @@ if curr
     Fyc=Yvdot*vcd(2);
     %Fpc=.45*L*Fxc+.45*40*Fyc;
 end
-% Current (old)
-% if curr
-%     thc=22.5*pi/180; %NNE
-%     PC=5e-6; %Normalized pressure of current
-%     thr=psi-thc;
-%     Ax=18.45*40*.4; %Frontal area of ship
-%     Ay=18.45*L*.85; %Side area of ship
-%     Fxc=-Ax*PC*cos(thr); %Normalized current force in x
-%     Fyc=-Ay*PC*sin(thr); %Normalized current force in y
-%     Fpc=.45*L*Fxc+.45*40*Fyc; %Normalized current moment in psi
-% else
-%     Fxc=0;
-%     Fyc=0;
-%     Fpc=0;
-% end
 
 % Forces and moments
 if u<=0, error('u must be larger than zero'); end
@@ -139,16 +124,6 @@ gY   = 1/L*(Yuv*ur*vr + Yvv*abs(vr)*vr + Yccd*abs(c)*c*delta - L*u*r + L*(d22+1)
 gLN  = Nuv*ur*vr + L*Nvr*abs(vr)*r + Nccd*abs(c)*c*delta +L*d33*ur*r ...
      + Nccbbd*abs(c)*c*abs(beta)*beta*abs(delta) + L*NT*gT;
 %xG implicitly assumed zero
-
-% Original
-% gX   = 1/L*(Xuu*u^2 + L*d11*v*r + Xvv*v^2 + Xccdd*abs(c)*c*delta^2 ...
-%      + Xccbd*abs(c)*c*beta*delta + L*gT*(1-t))+Fxc;
-% 
-% gY   = 1/L*(Yuv*u*v + Yvv*abs(v)*v + Yccd*abs(c)*c*delta + L*d22*u*r ...
-%      + Yccbbd*abs(c)*c*abs(beta)*beta*abs(delta) + YT*gT*L)+Fyc;     
-% 
-% gLN  = Nuv*u*v + L*Nvr*abs(v)*r + Nccd*abs(c)*c*delta +L*d33*u*r ...
-%      + Nccbbd*abs(c)*c*abs(beta)*beta*abs(delta) + L*NT*gT+Fpc;
 
 % Dimensional state derivative
 xdot = [  gX/m11 
