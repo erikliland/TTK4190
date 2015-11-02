@@ -1,2 +1,15 @@
 \subsection{Speed autopilot}\label{sec:prob1.2}
-Her skriver vi om speed autopilot
+To control the surge speed of MS Fartøystyring we suggest using a linearized model, where the surge speed is decoupled from the rest of the system. We are assuming $$u>>v$$ which leads to the conclusion that $$U=u$$.
+We then use a forward speed model from the 3DOF Momoto model
+\begin{equation}
+(m+X_{\dot{u}})\dot{u}-X_u u_r - X_{|u|u} | u_r | u_r=\tau
+\end{equation}
+which leads to
+\begin{equation}
+\dot{u} = \frac{ \tau + X_{|u|u} |u_r| u_r +X_u u_r }{ m-X_{\dot{u}} } 
+= \frac{X_{|u|u} |u_r| u_r +X_u u_r }{ m-X_{\dot{u}} } + \tau_{nl}
+\end{equation}
+where
+\begin{equation}
+\tau_{nl}  = \frac{ \tau}{ m-X_{\dot{u}} } \Rightarrow \tau = \tau_{nl}(m-X_{\dot{u}})
+\end{equation}

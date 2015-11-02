@@ -1,21 +1,21 @@
 \documentclass[11pt,a4paper,USenglish]{article}
 \usepackage{babel}
-%\usepackage{amsmath,amssymb}
-%\usepackage[utf8]{inputenc}
-%\usepackage{graphicx}
-%\usepackage{epstopdf}
+\usepackage{amsmath,amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[outdir=./]{epstopdf}
 %\usepackage[round]{natbib}
 %\usepackage{tocbibind}
 %\usepackage[thinspace,amssymb]{SIunits}
 %\usepackage{listings, courier, color}
 %\usepackage[margin=2.5cm]{geometry}
-%\usepackage{libertine}
-%\usepackage{fancyref}
+\usepackage{libertine}
+\usepackage{fancyref}
 %\usepackage{newtxmath}
 %\usepackage{afterpage}
 %\usepackage[T1]{fontenc}
-%\graphicspath{{../}}
-%\lstset{inputpath={../}}
+\graphicspath{{../MatLab-Simulink/}}
+%\lstset{inputpath={../MatLab-Simulink/}}
 %\usepackage[hidelinks,bookmarksnumbered]{hyperref} % Always load last
 
 
@@ -26,16 +26,17 @@
 \begin{document} 
 \maketitle
 \tableofcontents
+
 \newpage
-
 \section{Autopilot design}\label{sec:prob1}
-\include{task1_1}
-\include{task1_2}
+\input{task1_1}
+\input{task1_2}
 
+\newpage
 \section{Path following and Path tracking}\label{sec:prob2}
-\include{task2_1}
-\include{task2_2}
-\include{task2_3}
+\input{task2_1}
+\input{task2_2}
+\input{task2_3}
 
 \end{document}
 
