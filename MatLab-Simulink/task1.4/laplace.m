@@ -1,9 +1,9 @@
 clear all
 clc
 
-syms s T K K1 T1 T2 T3
+syms s T K K1 T1 T2 T3 delta
 
-f1 = K / (1 + T*s);
+f1 = (K*delta) / (1 + T*s);
 ilaplace(f1)
 
 f2 = K / (s * (1 + T*s));
