@@ -12,15 +12,23 @@ c=0;        %Current on (1)/off (0)
 n_c = 8.9;  %Commanced propeller shaft velocity [rad/s](max +-80 rpm =+- 8.9 rad/s)
 n_f = 0.01; %n_c sine frequency [rad/s]
 d_c = 0;    %Commanded rudder angle [rad] (max +-25deg = +-0.4363rad)
-psi_d = 0;  %Desired heading [rad]
-r_d=0;      %Desired yaw rate [rad/s]
 
 %Heading controller
+psi_d = 0;  %Desired heading [rad]
+r_d=0;      %Desired yaw rate [rad/s]
 K_p = 6;
 K_d = 60;
 K_i = 1/60;
 N   = 0.5; %Derivative filter [LPF] cutoff frequency [rad/s]
 %bode(tf([N 0],[1 N]));
+
+%Speed controller
+u_d = 5;    %Max speed 8.9 m/s
+K_p_u = 3;
+K_i_u = 1/400;
+K_ff_u= 0.8;
+K_d_u = 10;
+N_u = 1;
 
 %Estimator
 % m * y_dot_dot + beta * y_dot = u
@@ -46,25 +54,9 @@ title('Heading control');
 
 fig2 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
 hold on;
-plot(t,v(:,1)); %Surge
-plot(t,v(:,2)); %Sway
-plot(t,nc);     %Commanded shaft velocity
-maxSpeed = max(v(:,1));
-line([0 tstop],[maxSpeed maxSpeed],'LineStyle','--');
-text(50,maxSpeed*0.95,['Max speed = ' num2str(maxSpeed,2) ' m/s'],'FontSize',14);
+plot(t,v(:,1));             %Surge speed
+line([0 tstop],[u_d, u_d],'LineStyle','--'); %Desired surge speed
 xlabel('Time [s]');
 ylabel('Speed [m/s]');
-legend('Surge velocity','Sway velocity','Commanded shaft velocity','Max speed','Location','Best');
+legend('Surge velocity','Commanded surge velocity','Location','Best');
 title('Speed control');
-
-% fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)]);
-% subplot(2,1,1);
-% plot(theta_hat(:,1));
-% xlabel('Time [s]');
-% ylabel('Value');
-% legend('Mass estimate','Location','Best');
-% subplot(2,1,2);
-% plot(theta_hat(:,2));
-% xlabel('Time [s]');
-% ylabel('Value');
-% legend('\beta estimate','Location','Best');
