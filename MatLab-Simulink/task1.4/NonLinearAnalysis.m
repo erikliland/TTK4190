@@ -1,4 +1,4 @@
-function [ dc_list , r_list ] = NonLinearAnalysis( delta_c_max , n)
+function [ dc_list , r_list ] = NonLinearAnalysis( delta_c_max , n, compensate)
     tstart=0;      %Sim start time
     tstop=1000;    %Sim stop time
     tsamp=10;      %Sampling time (NOT ODE solver time step)
@@ -8,7 +8,11 @@ function [ dc_list , r_list ] = NonLinearAnalysis( delta_c_max , n)
     psi0=0;        %Inital yaw angle
     r0=0;          %Inital yaw rate
     c=0;           %Current on (1)/off (0)
-    delta_offset = 0;
+    if compensate
+        delta_offset = 0.009;
+    else
+        delta_offset = 0;
+    end
     
     dc_list = linspace(deg2rad(-delta_c_max),deg2rad(delta_c_max),n);
     r_list = zeros(1,n);

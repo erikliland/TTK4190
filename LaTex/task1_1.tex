@@ -24,11 +24,12 @@ The second order Nomoto model follows the ship´s overshoot some, but not enough
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto2}
+    \includegraphics[width= \textwidth]{task1.4/Task1_4_Nomoto2}
     \caption{2.order linear Nomoto model}
     \label{fig:nomoto2_lin}
 \end{figure}
 
+\newpage
 \subsubsection*{1. order linear Nomoto}
 
 \begin{equation}
@@ -42,30 +43,23 @@ We also tried the first order version Nomoto, and as expected the model will onl
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto1}
+    \includegraphics[width= \textwidth]{task1.4/Task1_4_Nomoto1}
     \caption{1.order linear Nomoto model}
     \label{fig:nomoto1_lin}
 \end{figure}
 
+\newpage
 \subsubsection*{2. order non-linear Nomoto}
-
 \begin{equation}
 \begin{split}
 	T_1 T_2 \ddot{r} + (T_1 + T_2)\dot{r} + KH_b(r) = K(\delta + T_3\dot{\delta} \\
 	H_B(r) = b_3r^3 + b_2r^2 + b_1r + b_0
 \end{split}
 \end{equation}
-Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of in the fixed rudder offset, and by symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. From ref:(Fossen) we know that $b_i = n_i |b_1|$. Since our ship is stable we know that $n_1=1$, and thus resulting in following model.
-\begin{equation}
-\begin{split}
-	T_1 T_2 \ddot{r} + (T_1 + T_2)\dot{r} + KH_b(r) = K(\delta + T_3\dot{\delta} \\
-	H_B(r) = b_3r^3  b_1r
-\end{split}
-\end{equation}
-
+Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of in the fixed rudder offset, and by symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. By curve fitting $H_B(r)=b_3r^3 + b_1r=\delta$ to the obtained delta-r curve, we estimate the parameters $b_3$ and $b_1$.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto2}
+    \includegraphics[width= \textwidth]{task1.4/Task1_4_Nomoto2_curvefit}
     \caption{2.order non-linear Nomoto model}
     \label{fig:nomoto2_nonlin}
 \end{figure}
