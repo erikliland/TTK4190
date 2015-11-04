@@ -10,29 +10,87 @@ To be able to model the ship in a good way we ran many simulations with differen
 \end{figure}
 
 From figure \ref{fig:delta-r-plot} we clearly see the non-linear behavior of the ship. This motivates a 1-DOF heading model i.e. first- or second order Monoto model with non-linear extensions. To further investigate the effect of the non-linear characteristics of this ship, we compare the actual response with different models at different rudder angles. It should also be noticed that the ship has a constant drift to starboard with $\delta_c=0$, as seen by the curve not passing through the origin. We compensate for this through the rest of the modeling part by adding a fixed rudder angle of $0.52\degree$ to the rudder input. We only need this correction while estimating the model parameters. In a closed loop, the integral effect will cancel both this drift and drift caused by wind, current and waves.
-\subsubsection*{1. order linear Nomoto}
-As expected the first order Nomoto model will only be accurate for small rudder angles, and is therefore not very good for modeling the non-linearities. 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto1}
-    \caption{1.order linear Nomoto model}
-    \label{fig:nomoto1}
-\end{figure}
 
 \subsubsection*{2. order linear Nomoto}
-The second order Nomoto model follows the ship´s response much better, but...
+
+\begin{equation}
+\begin{split}
+	\frac{r}{\delta}(s) = \frac{K_\nu (1+T_3 s)}{(1+T_1 s) (1+T_2 s) } \\
+	T_1 T_2 \dddot{\psi} + (T_1+T_2)\ddot{\psi} +\dot{\psi} = K(\delta+T_3 \dot{\delta})
+\end{split}
+\end{equation}
+
+The second order Nomoto model follows the ship´s overshoot some, but not enough.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto2}
     \caption{2.order linear Nomoto model}
-    \label{fig:nomoto2}
+    \label{fig:nomoto2_lin}
 \end{figure}
 
+\subsubsection*{1. order linear Nomoto}
 
-We model the heading of MS Fartøystyring with a Norrbin model
 \begin{equation}
 \begin{split}
-\dot{\Psi} = r \\
-T\dot{r}+n_3r^3 + n_1r=K\delta
+	\frac{r}{\delta}(s) = \frac{K}{(1+Ts) } \\
+	T\ddot{\psi} + \dot{\psi} = K\delta
 \end{split}
 \end{equation}
+
+We also tried the first order version Nomoto, and as expected the model will only be accurate for small rudder angles, and is therefore not very good for modeling the non-linearities.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto1}
+    \caption{1.order linear Nomoto model}
+    \label{fig:nomoto1_lin}
+\end{figure}
+
+\subsubsection*{2. order non-linear Nomoto}
+
+\begin{equation}
+\begin{split}
+	T_1 T_2 \ddot{r} + (T_1 + T_2)\dot{r} + KH_b(r) = K(\delta + T_3\dot{\delta} \\
+	H_B(r) = b_3r^3 + b_2r^2 + b_1r + b_0
+\end{split}
+\end{equation}
+Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of in the fixed rudder offset, and by symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. From ref:(Fossen) we know that $b_i = n_i |b_1|$. Since our ship is stable we know that $n_1=1$, and thus resulting in following model.
+\begin{equation}
+\begin{split}
+	T_1 T_2 \ddot{r} + (T_1 + T_2)\dot{r} + KH_b(r) = K(\delta + T_3\dot{\delta} \\
+	H_B(r) = b_3r^3  b_1r
+\end{split}
+\end{equation}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto2}
+    \caption{2.order non-linear Nomoto model}
+    \label{fig:nomoto2_nonlin}
+\end{figure}
+
+\subsubsection*{1. order non-linear Nomoto}
+Norbins' extension of the linear first order model:
+\begin{equation}
+\begin{split}
+	T\dot{r}+H_N(r)=K\delta \\
+	H_N(r) = n_3r^3 + n_2r^2 + n_1r + n_0
+\end{split}
+\end{equation}
+Where the steady state of $H_N(r)=K\delta$. We know that $n_i = \frac{b_i}{|b_1|}$, and since our ship is stable we know that $n_1=1$, and thus resulting in following model.
+\begin{equation}
+\begin{split}
+	T\dot{r}+n_3r^3 + r=K\delta
+\end{split}
+\end{equation}
+
+
+With the nonlinear first order Nomoto we...
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{task1.4/Task1_4_Nomoto1}
+    \caption{1.order non-linear Nomoto model}
+    \label{fig:nomoto1_nonlin}
+\end{figure}
