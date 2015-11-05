@@ -14,7 +14,7 @@ n_f = 0.01; %n_c sine frequency [rad/s]
 d_c = 0;    %Commanded rudder angle [rad] (max +-25deg = +-0.4363rad)
 
 %Heading controller
-psi_d = 0;  %Desired heading [rad]
+psi_d = deg2rad(45);  %Desired heading [rad]
 r_d=0;      %Desired yaw rate [rad/s]
 K_p = 6;
 K_d = 60;

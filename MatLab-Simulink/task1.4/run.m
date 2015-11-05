@@ -12,29 +12,6 @@ c=0;           %Current on (1)/off (0)
 
 %%%%% Curvefitting %%%%%
 delta_offset = 0.009; %Constant delta_c input [rad]
-% Nomoto 1. ordens lineær model
-fig1 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
-hold on; grid off; ylabel('Yaw rate [deg/s]'); xlabel('Time [s]');
-title('1st order linear Nomoto model compared to ship response','FontSize',14);
-
-for delta = 5:10:25 %maks +-25deg
-    delta_c = deg2rad(delta);
-    sim MSFartoystyring;
-    x0 = [50 0.1]';
-    F_1 = @(x,t,delta_c) x(2)*delta_c*(1 - exp(-t/x(1)));
-    F_2 = @(x,t) F_1(x,t,delta_c);
-    x = lsqcurvefit(F_2, x0, t, r,[],[],OPT);
-    T = x(1);
-    K = x(2);
-    nomoto1 = r0*exp(-t/T) + K*delta_c*(1 - exp(-t/T));
-    plot(t, rad2deg(r),'--');
-    plot(t, rad2deg(nomoto1));
-end
-axis([0 tstop 0 0.55]);
-legend( 'Ship, \delta = 5' ,'Nomoto1, \delta = 5', ...
-        'Ship, \delta = 15','Nomoto1, \delta = 15',...
-        'Ship, \delta = 25','Nomoto1, \delta = 25'); 
-saveas(fig1,'Task1_4_Nomoto1.eps','epsc');
 
 % Nomoto 2. ordens lineær model
 fig2 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
@@ -62,7 +39,31 @@ legend( 'Ship, \delta = 5' ,'Nomoto2, \delta = 5', ...
         'Ship, \delta = 25','Nomoto2, \delta = 25'); 
 saveas(fig2,'Task1_4_Nomoto2.eps','epsc');
 
-%% 
+% Nomoto 1. ordens lineær model
+fig1 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
+hold on; grid off; ylabel('Yaw rate [deg/s]'); xlabel('Time [s]');
+title('1st order linear Nomoto model compared to ship response','FontSize',14);
+
+for delta = 5:10:25 %maks +-25deg
+    delta_c = deg2rad(delta);
+    sim MSFartoystyring;
+    x0 = [50 0.1]';
+    F_1 = @(x,t,delta_c) x(2)*delta_c*(1 - exp(-t/x(1)));
+    F_2 = @(x,t) F_1(x,t,delta_c);
+    x = lsqcurvefit(F_2, x0, t, r,[],[],OPT);
+    T = x(1);
+    K = x(2);
+    nomoto1 = r0*exp(-t/T) + K*delta_c*(1 - exp(-t/T));
+    plot(t, rad2deg(r),'--');
+    plot(t, rad2deg(nomoto1));
+end
+axis([0 tstop 0 0.55]);
+legend( 'Ship, \delta = 5' ,'Nomoto1, \delta = 5', ...
+        'Ship, \delta = 15','Nomoto1, \delta = 15',...
+        'Ship, \delta = 25','Nomoto1, \delta = 25'); 
+saveas(fig1,'Task1_4_Nomoto1.eps','epsc');
+
+%%
 
 % Nomoto 2. ordens ulineær model (Norbin?)
 [dc, r] = NonLinearAnalysis(25, 150,1);

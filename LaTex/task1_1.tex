@@ -57,18 +57,18 @@ We also tried the first order version Nomoto, and as expected the model will onl
 \end{split}
 \end{equation}
 Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of in the fixed rudder offset, and by symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. By curve fitting $H_B(r)=b_3r^3 + b_1r=\delta$ to the obtained delta-r curve, we estimate the parameters $b_3$ and $b_1$.
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}{0.7\textwidth}
     \centering
-    \includegraphics[width=0.3 \textwidth]{task1.4/Task1_4_Nomoto2_delta_r}
+    \includegraphics[width= \textwidth]{task1.4/Task1_4_Nomoto2_delta_r}
     \caption{Third degree approximation of ship characteristics}
     \label{fig:nomoto2_delta_r}
     \end{minipage}
     \vfill
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}{0.7\textwidth}
     \centering
-    \includegraphics[width= 0.3 \textwidth]{task1.4/Task1_4_Nomoto2_curvefit}
+    \includegraphics[width=  \textwidth]{task1.4/Task1_4_Nomoto2_curvefit}
     \caption{2.order non-linear Nomoto model}
     \label{fig:nomoto2_nonlin}
     \end{minipage}
