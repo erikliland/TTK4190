@@ -22,7 +22,7 @@ for delta = 5:10:25
     delta_c = deg2rad(delta); %maks +-25deg
     sim MSFartoystyring;
     x0 = [2000 100 3000 50]';
-    F_3 = @(x,t,delta_c) delta_c*(x(4) - (x(4)*exp(-t/x(1))*(x(1) - x(3)))/(x(1) - x(2)) + (x(4)*exp(-t/x(2))*(x(2) - x(3)))/(x(1) - x(2)));
+    F_3 = @(x,t,delta_c) delta_c*(x(4)-(x(4)*exp(-t/x(1))*(x(1)-x(3)))/(x(1)-x(2))+(x(4)*exp(-t/x(2))*(x(2)-x(3)))/(x(1)-x(2)));
     F_4 = @(x,t) F_3(x,t,delta_c);
     x = lsqcurvefit(F_4, x0, t, r,[],[],OPT);
     T1 = x(1);
@@ -64,23 +64,38 @@ legend( 'Ship, \delta = 5' ,'Nomoto1, \delta = 5', ...
 saveas(fig1,'Task1_4_Nomoto1.eps','epsc');
 
 %%
-
+close all; clc;
 % Nomoto 2. ordens ulineær model (Norbin?)
-[dc, r] = NonLinearAnalysis(25, 150,1);
-fig3 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
-hold on; grid off; xlabel('Rudder [deg]'); ylabel('Yaw rate [deg/s]');
-title('Non-linear maneuvering characteristics compared to ship response','FontSize',14);
-plot(rad2deg(dc),rad2deg(r),'--');
-b_0 = [800e3 10];
+% %%[d_list, r_list] = NonLinearAnalysis(25, 300,1, tstop, tsamp);
+load('Delta_r_data.mat');
+b_1_0 = [800e3 12];
 F_5 = @(b,xdata) b(1) * xdata.^3 + b(2)*xdata;
-b = lsqcurvefit(F_5, b_0, r, dc,[0 0 ],[inf inf],OPT);
-t = linspace(-0.0075118, 0.0075118, 100);
-plot(rad2deg(F_5(b,t)),rad2deg(t));
+b_1 = lsqcurvefit(F_5, b_1_0, r_list, d_list,[-inf 0],[inf inf],OPT)
+
+b_2_0 = [800e3 1 10];
+F_6 = @(b,xdata) b(1)*xdata.^3 + b(2)*xdata.^2 + b(3)*xdata;
+b_2 = lsqcurvefit(F_6, b_2_0, r_list, d_list,[-inf -inf 0],[inf inf inf],OPT)
+
+fig3 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
+hold on; title('Non-linear maneuvering characteristics compared to ship response','FontSize',14);
+t = linspace(-0.0075118, 0.0075118, 300);
+plot(rad2deg(d_list),rad2deg(r_list),'--'); %plot(rad2deg(d_list),rad2deg(r_list),'o');
+plot(rad2deg(F_5(b_1,t)),rad2deg(t));       %plot(rad2deg(F_5(b_1,t)),rad2deg(t) ,'o');
+plot(rad2deg(F_6(b_2,t)),rad2deg(t));       %plot(rad2deg(F_6(b_2,t)),rad2deg(t) ,'o');
+xlabel('Rudder [deg]'); ylabel('Yaw rate [deg/s]');
 line([0 -25; 0 25],[-0.45 0; 0.45 0],'Color','black','LineStyle','--');
 axis([-25 25 -0.45 0.45]);
-legend('Ship characteristics','3.degree approximation','Location','best');
+legend('Ship characteristics','1. and 3.degree approximation','1. 2. and 3.degree approximation','Location','best');
 saveas(fig3,'Task1_4_Nomoto2_delta_r.eps','epsc');
 
+fig6 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
+hold on; title('Non-linear maneuvering characteristics compared to ship response','FontSize',14);
+plot(rad2deg(r_list),rad2deg(d_list),'--');     plot(rad2deg(r_list),rad2deg(d_list)            ,'o');
+plot(rad2deg(t),rad2deg(F_5(b_1,t))); plot(rad2deg(t),rad2deg(F_5(b_1,t))   ,'o');
+plot(rad2deg(t),rad2deg(F_6(b_2,t))); plot(rad2deg(t),rad2deg(F_6(b_2,t))   ,'o');
+ylabel('Rudder [deg]'); xlabel('Yaw rate [deg/s]');
+
+%%
 fig4 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
 hold on; grid off; ylabel('Yaw rate [deg/s]'); xlabel('Time [s]');
 title('2st order non-linear Nomoto model compared to ship response','FontSize',14);
@@ -88,17 +103,15 @@ title('2st order non-linear Nomoto model compared to ship response','FontSize',1
 for delta = 5:10:25
     delta_c = deg2rad(delta); %maks +-25deg
     sim MSFartoystyring;
-    b_3 = b(1);
-    b_1 = b(2);
-    x0 = [70 80 168 0.1 b_3 b_1]';
-    F_6 = @(x,t) simNonLinear_Nomoto2( x(1), x(2), x(3), x(4), x(5), x(6), delta_c, tstop, tsamp );
-    x = lsqcurvefit(F_6, x0, t, r,[],[],OPT);
+    x0 = [70 80 168 0.1 b_1(1) b_1(2)]';
+    F_7 = @(x,t) simNonLinear_Nomoto2( x(1), x(2), x(3), x(4), x(5), x(6), delta_c, tstop, tsamp );
+    x = lsqcurvefit(F_7, x0, t, r,[],[],OPT);
     T1 = x(1);
     T2 = x(2);
     T3 = x(3);
     K  = x(4);
     plot(t, rad2deg(r),'--' )
-    plot(t, rad2deg(F_6(x,t)));
+    plot(t, rad2deg(F_7(x,t)));
 end
 axis([0 tstop 0 0.55]);
 legend( 'Ship, \delta = 5' ,'Nomoto2, \delta = 5', ...
@@ -116,12 +129,12 @@ for delta = 5:10:25 %maks +-25deg
     delta_c = deg2rad(delta);
     sim MSFartoystyring;
     x0 = [50 0.1]';
-    F_7 = @(x,t) simNonLinear_Nomoto1(x(1), x(2), delta_c, tstop, tsamp);
-    x = lsqcurvefit(F_7, x0, t, r,[],[],OPT);
+    F_8 = @(x,t) simNonLinear_Nomoto1(x(1), x(2), delta_c, tstop, tsamp);
+    x = lsqcurvefit(F_8, x0, t, r,[],[],OPT);
     T = x(1);
     K = x(2);
     plot(t, rad2deg(r),'--');
-    plot(t, rad2deg(F_7(x,t)));
+    plot(t, rad2deg(F_8(x,t)));
 end
 axis([0 tstop 0 0.55]);
 legend( 'Ship, \delta = 5' ,'Nomoto1 Non-linear, \delta = 5', ...

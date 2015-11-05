@@ -13,13 +13,19 @@ n_c = 8.9;  %Commanced propeller shaft velocity [rad/s](max +-80 rpm =+- 8.9 rad
 n_f = 0.01; %n_c sine frequency [rad/s]
 d_c = 0;    %Commanded rudder angle [rad] (max +-25deg = +-0.4363rad)
 
-%Heading controller
+%Yaw rate controller
+r_d = deg2rad(0.3);   %Desired yaw rate [rad/s]
+b_1 = 10;
+b_3 = 5e8;
+kp_r = 0;
+ki_r = 0;
+
+%Yaw / Heading controller
 psi_d = deg2rad(45);  %Desired heading [rad]
-r_d=0;      %Desired yaw rate [rad/s]
-K_p = 6;
-K_d = 60;
-K_i = 1/60;
-N   = 0.5; %Derivative filter [LPF] cutoff frequency [rad/s]
+K_p = 1;
+K_d = 0;
+K_i = 0;
+N   = 1; %Derivative filter [LPF] cutoff frequency [rad/s]
 %bode(tf([N 0],[1 N]));
 
 %Speed controller
