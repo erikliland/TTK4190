@@ -69,12 +69,14 @@ close all; clc;
 % %%[d_list, r_list] = NonLinearAnalysis(25, 300,1, tstop, tsamp);
 load('Delta_r_data.mat');
 b_1_0 = [800e3 12];
-F_5 = @(b,xdata) b(1) * xdata.^3 + b(2)*xdata;
-b_1 = lsqcurvefit(F_5, b_1_0, r_list, d_list,[-inf 0],[inf inf],OPT)
+F_5 = @(b,xdata) b(1) * xdata.^3 + b(2) * xdata;
+b_1 = lsqcurvefit(F_5, b_1_0, r_list, d_list,[],[],OPT)
 
 b_2_0 = [800e3 1 10];
-F_6 = @(b,xdata) b(1)*xdata.^3 + b(2)*xdata.^2 + b(3)*xdata;
-b_2 = lsqcurvefit(F_6, b_2_0, r_list, d_list,[-inf -inf 0],[inf inf inf],OPT)
+F_6 = @(b,xdata) b(1) * xdata.^3 + b(2) * xdata + b(3) * xdata.^2;
+b_2 = lsqcurvefit(F_6, b_2_0, r_list, d_list,[0 0 0],[],OPT)
+
+save('H_b_curvefitting','b_1','b_2');
 
 fig3 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
 hold on; title('Non-linear maneuvering characteristics compared to ship response','FontSize',14);
