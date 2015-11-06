@@ -1,69 +1,79 @@
-close all; clear all; clc;
-tstart=0;      %Sim start time
-tstop=3000;    %Sim stop time
-tsamp=10;      %Sampling time (NOT ODE solver time step)
+close all; clear all; clc; scrsz = get(groot,'ScreenSize'); load('../task1.4/H_b_curvefitting.mat');
+tstart= 0;                  %Sim start time
+tstop = 5000;               %Sim stop time
+tsamp = 10;                  %Sampling time (NOT ODE solver time step)
 
 %System
-p0=zeros(2,1);%Initial position (NED)
-v0=[0.00001 0]';  %Initial velocity (body)[m/s]
-psi0=0;     %Inital yaw angle [rad]
-r0=0;       %Inital yaw rate [rad]
-c=0;        %Current on (1)/off (0)
-n_c = 8.9;  %Commanced propeller shaft velocity [rad/s](max +-80 rpm =+- 8.9 rad/s)
-n_f = 0.01; %n_c sine frequency [rad/s]
-d_c = 0;    %Commanded rudder angle [rad] (max +-25deg = +-0.4363rad)
+p0  = zeros(2,1);           %Initial position (NED)
+v0  = [0.001 0]';           %Initial velocity (body)[m/s]
+psi0= 0;                    %Inital yaw angle [rad]
+r0  = 0;                    %Inital yaw rate [rad]
+c   = 0;                    %Current on (1)/off (0)
 
 %Yaw rate controller
-r_d = deg2rad(0.3);   %Desired yaw rate [rad/s]
-b_1 = 10;
-b_3 = 5e8;
-kp_r = 0;
-ki_r = 0;
-
+delta_max=deg2rad(25);      %Ships rudder maximum angle [rad]
+delta_dot_max=deg2rad(0.4); %Ships rudder slew rate     [rad/s]
+r_max=deg2rad(0.35);        %Ships maximum yaw rate (delta_c = max) [rad]
+w_r = deg2rad(0.3);         %r_d 1st order LPF, w_r = -3dB cutoff 
+r_d = deg2rad(0.1);         %Desired yaw rate           [rad/s]
+k_b0 = 0.009;               %Offset compansation            [rad]
+k_b3 = b_2(1);              %Cubic feed forward             [rad/(rad/s)]
+k_b1 = b_2(2);              %Linear feed forward            [rad/(rad/s)]
+k_b2 = b_2(3);              %Quadratic feed forward         [rad/(rad/s)]
+kp_r = 300;                 %Feedback proportional error gain
+ki_r = 1/3;                 %Feedback integral error gain
+kd_r = 5e3;                 %Feedback derivative error gain
+N_r  = deg2rad(0.8);         %Derivative filter [LPF] cutoff frequency [rad/s]
+ 
 %Yaw / Heading controller
-psi_d = deg2rad(45);  %Desired heading [rad]
-K_p = 1;
-K_d = 0;
-K_i = 0;
-N   = 1; %Derivative filter [LPF] cutoff frequency [rad/s]
-%bode(tf([N 0],[1 N]));
+w_psi  = deg2rad(0.2);      %psi_d 1st order LPF, w_psi = -3dB cutoff 
+psi_s  = deg2rad(45);       %Desired heading [rad]
+psi_t  = 2000;              %Step time
+kp_psi = 15e-3;             %Feedback proportional error gain
+kd_psi = 3;                 %Feedback derivative error gain
+ki_psi = 2e-5;              %Feedback integral error gain
+N_psi  = deg2rad(1);        %Derivative filter [LPF] cutoff frequency [rad/s]
 
 %Speed controller
-u_d = 5;    %Max speed 8.9 m/s
-K_p_u = 3;
-K_i_u = 1/400;
-K_ff_u= 0.8;
-K_d_u = 10;
-N_u = 1;
-
-%Estimator
-% m * y_dot_dot + beta * y_dot = u
-% m*y*s2 + beta * y*s = u
-% theta = [m,beta]
-% psi = [y_dot_dot, y_dot]
-Inital_guess = [0; 0]; %[m;beta]
-Gamma = diag([10 10]);
+n_c_max = 8.9;              %Propeller shaft max velocity [rad/s](85 rpm)
+n_dot_max = deg2rad(2.5);   %Propeller shaft max acceleration [rad/s2]
+u_max = 8.9;                %Ship´s max speed [m/s]
+w_u = deg2rad(0.2);         %u_d 1st order LPF, w_u = -3dB cutoff 
+u_d = 5;                    %Max speed ~ 8.9 m/s
+K_ff_u= 1.1;                %Feed forward proportional gain
+K_p_u = 5;                  %Feedback proportional error gain
+K_i_u = 1e-3;               %Feedback integral error gain
+K_d_u = 0;                  %Feedback derivative error gain
+N_u = deg2rad(1);           %Derivative filter [LPF] cutoff frequency [rad/s]
 
 sim task1_8
 
-scrsz = get(groot,'ScreenSize');
-fig1 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
-hold on;
+fig1 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)]);
+subplot(3,1,1); hold on; xlabel('Time [s]'); ylabel('Heading [deg]');
+plot(t,rad2deg(psi_d),'--');
 plot(t,rad2deg(psi));
+legend('\psi_d','\psi','Location','Best');
+title('Yaw controller');
+
+subplot(3,1,2); hold on; xlabel('Time [s]'); ylabel('Yaw rate [deg/s]');
+plot(t,rad2deg(rd),'--');
 plot(t,rad2deg(r));
-%plot(t,rad2deg(dc)/4);
-line([0 tstop],[0 0],'LineStyle','--');
-xlabel('Time [s]');
-ylabel('Heading [deg]');
-legend('Yaw angle','Commanded rudder angle /4','Yaw setpoint','Location','Best');
-title('Heading control');
+legend('r_d','r','Location','Best');
+title('Yaw rate controller');
 
+subplot(3,1,3); hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
+plot(t,rad2deg(-dc));
+legend('\delta_c','Location','Best');
+title('Rudder');
 
-fig2 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
-hold on;
-plot(t,v(:,1));             %Surge speed
-line([0 tstop],[u_d, u_d],'LineStyle','--'); %Desired surge speed
-xlabel('Time [s]');
-ylabel('Speed [m/s]');
-legend('Surge velocity','Commanded surge velocity','Location','Best');
+fig2 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)]);
+subplot(2,1,1); hold on; xlabel('Time [s]'); ylabel('Speed [m/s]');
+plot(t,ud,'--');
+plot(t,v(:,1));
+legend('u_d','u','Location','Best');
 title('Speed control');
+
+subplot(2,1,2); hold on; xlabel('Time [s]'); ylabel('Shaft speed [rpm]');
+plot(t,nc*60/(2*pi));
+legend('n_c','Location','Best');
+title('Propeller');
