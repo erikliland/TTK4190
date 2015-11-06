@@ -1,6 +1,6 @@
 close all; clear all; clc; scrsz = get(groot,'ScreenSize'); 
 tstart= 0;                  %Sim start time
-tstop = 5000;               %Sim stop time
+tstop = 4000;               %Sim stop time
 tsamp = 10;                  %Sampling time (NOT ODE solver time step)
 
 n_c_max = 8.9;              %Propeller shaft max velocity [rad/s](85 rpm)
@@ -16,7 +16,7 @@ hold on; xlabel('Propeller shaft speed [rpm]'); ylabel('Speed [m/s]');
 plot(nc_list*60/(2*pi),u_list,'o');
 t = linspace(0, n_c_max, 100);
 plot(t*60/(2*pi),F(n_c_k,t));
-legend('Steady state test','Curefittet characteristics','Location','East');
+legend('Steady state test','Curefittet characteristics');
 title('Speed characteristics');
 text(50,1,['u(n_c) = ' num2str(n_c_k,2) ' n_c'],'FontSize',14);
 saveas(fig1,'Speed_characteristics.eps','epsc');

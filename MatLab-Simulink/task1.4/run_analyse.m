@@ -48,14 +48,13 @@ for delta = 5:10:25 %maks +-25deg
     delta_c = deg2rad(delta);
     sim MSFartoystyring;
     x0 = [50 0.1]';
-    F_1 = @(x,t,delta_c) x(2)*delta_c*(1 - exp(-t/x(1)));
+    F_1 = @(x,t,delta_c)    r0*exp(-t/x(1)) + x(2)* delta_c (1 - exp(-t/x(1)));
     F_2 = @(x,t) F_1(x,t,delta_c);
     x = lsqcurvefit(F_2, x0, t, r,[],[],OPT);
     T = x(1);
     K = x(2);
-    nomoto1 = r0*exp(-t/T) + K*delta_c*(1 - exp(-t/T));
     plot(t, rad2deg(r),'--');
-    plot(t, rad2deg(nomoto1));
+    plot(t, rad2deg(F_2(x,t)));
 end
 axis([0 tstop 0 0.55]);
 legend( 'Ship, \delta = 5' ,'Nomoto1, \delta = 5', ...
