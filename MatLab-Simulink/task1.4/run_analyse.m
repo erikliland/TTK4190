@@ -77,22 +77,23 @@ legend( 'Ship, \delta = 5' ,'Nomoto1, \delta = 5', ...
 saveas(fig3,'Task1_4_Nomoto1.eps','epsc');
 
 % Nomoto 2. ordens ulineær model [delta-r steady state]
-if ~exist('d_list','var')
-    load('Delta_r_data.mat');
+if ~exist('r_list_c','var')
+    disp('Laster inn Delta_r_data_c');
+    load('Delta_r_data_c.mat');
 end
 b_1_0 = [800e3 12];
 F5 = @(b,xdata) b(1) * xdata.^3 + b(2) * xdata;
-b_1 = lsqcurvefit(F5, b_1_0, r_list, d_list,[],[],OPT);
+b_1 = lsqcurvefit(F5, b_1_0, r_list_c, d_list,[],[],OPT);
 
 b_2_0 = [800e3 1 10];
 F6 = @(b,xdata) b(1) * xdata.^3 + b(2) * xdata + b(3) * xdata.^2;
-b_2 = lsqcurvefit(F6, b_2_0, r_list, d_list,[0 0 0],[],OPT);
+b_2 = lsqcurvefit(F6, b_2_0, r_list_c, d_list,[0 0 0],[],OPT);
 save('H_b_curvefitting','b_1','b_2');
 
 fig4 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);
 hold on; title('Non-linear maneuvering characteristics model compared to ship response','FontSize',14);
 t = linspace(-0.0075118, 0.0075118, 300);
-plot(rad2deg(d_list),rad2deg(r_list),'--'); %plot(rad2deg(d_list),rad2deg(r_list),'o');
+plot(rad2deg(d_list),rad2deg(r_list_c),'--'); %plot(rad2deg(d_list),rad2deg(r_list_c),'o');
 plot(rad2deg(F5(b_1,t)),rad2deg(t));        %plot(rad2deg(F5(b_1,t)),rad2deg(t) ,'o');
 plot(rad2deg(F6(b_2,t)),rad2deg(t));        %plot(rad2deg(F6(b_2,t)),rad2deg(t) ,'o');
 xlabel('Rudder [deg]'); ylabel('Yaw rate [deg/s]');
@@ -105,7 +106,7 @@ saveas(fig4,'Task1_4_Nomoto2_delta_r.eps','epsc');
 
 %fig5 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
 %hold on; title('Linearization function r -> \delta','FontSize',14);
-%plot(rad2deg(r_list),rad2deg(d_list),'--');     plot(rad2deg(r_list),rad2deg(d_list)            ,'o');
+%plot(rad2deg(r_list_c),rad2deg(d_list),'--');     plot(rad2deg(r_list_c),rad2deg(d_list)            ,'o');
 %plot(rad2deg(t),rad2deg(F5(b_1,t))); plot(rad2deg(t),rad2deg(F5(b_1,t))   ,'o');
 %plot(rad2deg(t),rad2deg(F6(b_2,t))); plot(rad2deg(t),rad2deg(F6(b_2,t))   ,'o');
 %ylabel('Rudder [deg]'); xlabel('Yaw rate [deg/s]');
