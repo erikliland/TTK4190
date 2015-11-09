@@ -7,11 +7,7 @@ function Run_Delta_R_Sim( dc_max , n, compensate, tstop, tsamp)
     c=0;           %Current on (1)/off (0)
     d_list = linspace(-dc_max,dc_max,n);
     r_list = zeros(1,n);
-    if compensate
-        delta_offset = 0.009;
-    else
-        delta_offset = 0;
-    end   
+    delta_offset = 0;
 
     for  i = 1:n
         delta_c = d_list(i);
@@ -20,4 +16,15 @@ function Run_Delta_R_Sim( dc_max , n, compensate, tstop, tsamp)
         r_list(i) = r(end);
     end
     save('Delta_r_data.mat','d_list', 'r_list');
+    
+    delta_offset = 0.009;
+    r_list_c = zeros(1,n);
+     for  i = 1:n
+        delta_c = d_list(i);
+        options = simset('SrcWorkspace','current');
+        sim('MSFartoystyring',[],options)
+        r_list_c(i) = r(end);
+    end
+    save('Delta_r_data_c.mat','d_list', 'r_list_c');
+    
 end
