@@ -101,7 +101,7 @@ line([0 -25; 0 25],[-0.45 0; 0.45 0],'Color','black','LineStyle','--');
 axis([-25 25 -0.45 0.45]);
 legend('Ship characteristics','1. and 3.degree approximation','1. 2. and 3.degree approximation','Location','best');
 text(-15,0.2,{'1. and 3. degree coefficients', ['b_3=' num2str(b_1(1),3)], ['b_1=' num2str(b_1(2),3)] });
-text(10,-0.2,{'1., 2. and 3. degree coefficients', ['b_3=' num2str(b_2(1),3)], ['b_2=' num2str(b_2(3),3)], ['b_1=' num2str(b_2(2),3)] });
+text(10,-0.1,{'1., 2. and 3. degree coefficients', ['b_3=' num2str(b_2(1),3)], ['b_2=' num2str(b_2(3),3)], ['b_1=' num2str(b_2(2),3)] });
 saveas(fig4,'Task1_4_Nomoto2_delta_r.eps','epsc');
 
 %fig5 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
