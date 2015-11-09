@@ -1,11 +1,11 @@
-close all; clear all; clc;
+close all; clear all; clc; scrsz = get(groot,'ScreenSize');
 
 load('WP.mat');
-load('../task1.4/Yaw and Yaw-rate controller');
+load('../task1.4/Yaw_PID_controller');
 load('../task1.8/Speed controller')
 
 tstart = 0;      %Sim start time
-tstop = 4000;    %Sim stop time
+tstop = 3200;    %Sim stop time
 tsamp = 10;      %Sampling time (NOT ODE solver time step)
 
 p0 = zeros(2,1); %Initial position (NED)
@@ -16,9 +16,10 @@ c = 0;           %Current on (1)/off (0)
 
 sim task2_3
 
-%pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
+pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
 
-fig1 = figure(3); 
-hold on;
-plot(t,psi_d_f);
-plot(t,psi);
+fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);
+hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
+plot(t,rad2deg(psi_d),'--');
+plot(t,rad2deg(psi));
+legend('\psi_d','\psi');

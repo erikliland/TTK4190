@@ -33,9 +33,9 @@ function pathplotter(x, y,  psi, tsamp, dec, tstart, tstop, track, WP)
 %You are free to modify the code as necessary.
 %
 %Bugs should be reported to the TA.
-close all
-figure
-hold on
+close all; scrsz = get(groot,'ScreenSize');
+fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
+hold on;
 psiTemp=atan2(WP(2,2)-WP(2,1),WP(1,2)-WP(1,1));
 if track
 %     tim=tstart:tsamp:tstop;
@@ -132,6 +132,7 @@ else
         if(tmpS(mind)<eps)
             mind = mind+1;
         end
+        %disp(['Mind' int2str(mind)]);
         minds(ii) = mind;
         e(ii) = tmpE(mind);
         s(ii) = tmpS(mind);
@@ -148,7 +149,7 @@ else
 %     ylabel('distance [m]')
 %     title('Aling-track error')
     
-    figure
+    fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
     plot(tim, e)
     xlabel('time [s]')
     ylabel('distance [m]')

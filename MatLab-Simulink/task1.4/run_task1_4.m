@@ -26,6 +26,8 @@ N_psi  = deg2rad(1);        %Derivative filter [LPF] cutoff frequency [rad/s]
 save('Yaw_NonLin_controller'); clear all;
 
 %Yaw / Heading controller (PID)
+delta_max=deg2rad(25);      %Ships rudder maximum angle [rad]
+k_b0 = 0.009;               %Offset compansation [rad]
 kp_psi = 90;                %Feedback proportional error gain
 ki_psi = 0.8;               %Feedback integral error gain
 kd_psi = 500;               %Feedback derivative error gain
