@@ -16,4 +16,9 @@ c = 0;           %Current on (1)/off (0)
 
 sim task2_3
 
-pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
+%pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
+
+fig1 = figure(3); 
+hold on;
+plot(t,psi_d_f);
+plot(t,psi);
