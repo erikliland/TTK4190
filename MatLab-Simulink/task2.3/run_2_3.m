@@ -5,20 +5,20 @@ load('../task1.4/Yaw_PID_controller');
 load('../task1.8/Speed controller')
 
 tstart = 0;      %Sim start time
-tstop = 4000;    %Sim stop time
+tstop = 2500;    %Sim stop time
 tsamp = 10;      %Sampling time (NOT ODE solver time step)
 
 p0 = zeros(2,1); %Initial position (NED)
 v0 = [6.63 0]';  %Initial velocity (body)
 psi0 = 0;        %Inital yaw angle
 r0 = 0;          %Inital yaw rate
-c = 1;           %Current on (1)/off (0)
+c = 0;           %Current on (1)/off (0)
+
+%%%% Design values
+Ua_MAX = 1; % [m/s];
+DELTA_s = 0.01; % should be > 0
 
 sim task2_3
-
-%% Design values
-Ua_max = 6; % [m/s];
-DELTA_s = 1; % should be > 0
 
 
 pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
