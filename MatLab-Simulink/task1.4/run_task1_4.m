@@ -28,7 +28,7 @@ save('Yaw_NonLin_controller'); clear all;
 %Yaw / Heading controller (PID)
 delta_max=deg2rad(25);      %Ships rudder maximum angle [rad]
 k_b0 = 0.009;               %Offset compansation [rad]
-kp_psi = 90;                %Feedback proportional error gain
+kp_psi = 150;%90;                %Feedback proportional error gain
 ki_psi = 0.8;               %Feedback integral error gain
 kd_psi = 500;               %Feedback derivative error gain
 save('Yaw_PID_controller'); clear all;
@@ -38,7 +38,7 @@ load('Yaw_PID_controller');
 
 %Simulink
 tstart= 0;                  %Sim start time
-tstop = 1500;               %Sim stop time
+tstop = 1000;               %Sim stop time
 tsamp = 1;                  %Sampling time (NOT ODE solver time step)
 
 %System
