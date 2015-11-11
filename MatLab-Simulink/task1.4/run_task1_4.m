@@ -27,8 +27,11 @@ save('Yaw_NonLin_controller'); clear all;
 
 %Yaw / Heading controller (PID)
 delta_max=deg2rad(25);      %Ships rudder maximum angle [rad]
+w_d = 2;                   %Derivative LPF -3dB roll-off freq [rad/s]
+alpha = 0.01;               %0<a<1
+%bode(tf([w_d 0],[1 alpha*w_d]),{0.001 1});
 k_b0 = 0.009;               %Offset compansation [rad]
-kp_psi = 150;%90;                %Feedback proportional error gain
+kp_psi = 150;               %Feedback proportional error gain
 ki_psi = 0.8;               %Feedback integral error gain
 kd_psi = 500;               %Feedback derivative error gain
 save('Yaw_PID_controller'); clear all;
