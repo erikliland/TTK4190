@@ -16,6 +16,11 @@ c = 1;           %Current on (1)/off (0)
 
 sim task2_3
 
+%% Design values
+Ua_max = 6; % [m/s];
+DELTA_s = 1; % should be > 0
+
+
 pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
 
 fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);
