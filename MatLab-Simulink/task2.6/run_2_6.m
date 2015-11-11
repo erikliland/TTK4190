@@ -15,7 +15,7 @@ r0 = 0;          %Inital yaw rate
 c = 0;           %Current on (1)/off (0)
 
 %%%% Design values
-R = 1200; %THE LOOKAHEAD DISTANCE (R>600m due to initial state)
+R = 950; %THE LOOKAHEAD DISTANCE (R>692m due to initial state)
 Ua_MAX = 1; % [m/s];
 DELTA_s = 0.01; % should be > 0
 
