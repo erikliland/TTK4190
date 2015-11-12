@@ -1,21 +1,13 @@
 close all; clear all; clc; load('../task1.4/H_b_curvefitting.mat'); 
 
 %Yaw / Heading controller (PID)
-w_psi = 0.01;            %Ships max yaw change
+w_psi = 0.01;               %Ships yaw_d 3.order LPF cut-off frequency
 delta_max=deg2rad(25);      %Ships rudder maximum angle [rad]
 k_b0 = 0.009;               %Offset compansation [rad]
-<<<<<<< Updated upstream
-kp_psi = 90;  %150           %Feedback proportional error gain
-ki_psi = 0;   %0.8           %Feedback integral error gain
-kd_psi = 300; %500           %Feedback derivative error gain
-=======
 kp_psi = 90;                %Feedback proportional error gain
 ki_psi = 0.8;               %Feedback integral error gain
 kd_psi = 500;               %Feedback derivative error gain
-w_d = 0.008;%2              %Derivative LPF -3dB roll-off freq [rad/s]
-alpha = 0.1; %0.01          %0<a<1
 %bode(tf([w_d 0],[1 alpha*w_d]),{0.001 1});
->>>>>>> Stashed changes
 save('Yaw_PID_controller'); clear all;
 
 load('Yaw_NonLin_controller');
@@ -49,10 +41,11 @@ legend('\psi_e','\psi_{e_m}','Location','NorthEast');
 title('Yaw error');
 
 subplot(2,2,2); hold on; xlabel('Time [s]'); ylabel('Heading [deg]');
-plot(t,rad2deg(psi_d),'--');
+plot(t,rad2deg(psi_d),'-.');
+plot(t,rad2deg(psi_d_f),'--');
 plot(t,rad2deg(psi));
 %plot(t,rad2deg(psi_m),'-.');
-legend('\psi_d','\psi','\psi_m','Location','NorthEast');
+legend('\psi_d','\psi_{d_f}','\psi','\psi_m','Location','NorthEast');
 title('Yaw controller');
 
 subplot(2,2,3); hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
