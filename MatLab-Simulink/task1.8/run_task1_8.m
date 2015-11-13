@@ -1,15 +1,15 @@
 close all; clear all; clc; 
 
 %Speed controller
-%load('Speed_characteristics');%Force-feed-forward constant
-n_c_k = 1.02;
+w_u = 0.011;                %u_d LPF -9dB frequency
+n_c_k = 1.02;               %Propeller force feed forwar koefficient
 n_c_max = 8.9;              %Propeller shaft max velocity [rad/s](85 rpm)
 n_dot_max = deg2rad(2.5);   %Propeller shaft max acceleration [rad/s2]               
-Kp_u = 10;                   %Feedback proportional error gain
-Ki_u = 0.0005;             %Feedback integral error gain
+Kp_u = 20;                  %Feedback proportional error gain
+Ki_u = 0.1;                 %Feedback integral error gain
 save('Speed controller')
 
-load('../task1.4/Yaw_PID_controller');
+load('../task1.4/Yaw_PID_controller'); 
 scrsz = get(groot,'ScreenSize');
 
 %Simulation
@@ -24,8 +24,6 @@ psi0= 0;                    %Inital yaw angle [rad]
 r0  = 0;                    %Inital yaw rate [rad]
 c   = 1;                    %Current on (1)/off (0)
 
-load('../task1.4/Yaw_PID_controller');
-
 sim task1_8
 
 fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)]);
@@ -34,7 +32,8 @@ plot(t,u_e);
 legend('u_e','Location','Best');
 
 subplot(2,1,2); hold on; xlabel('Time [s]'); ylabel('Speed [m/s]');
-plot(t,u_d,'--');
+plot(t,u_d,'-.');
+plot(t,u_d_f,'--');
 plot(t,v(:,1));
-legend('u_d','u','Location','Best');
+legend('u_d','u_{d_f}','u','Location','Best');
 saveas(fig1,'Task1_8_sim.eps','epsc');
