@@ -1,13 +1,12 @@
-close all; clear all; clc; %load('../task1.4/H_b_curvefitting.mat'); 
+close all; clear all; clc;
 
 %Yaw / Heading controller (PID)
 w_psi = 0.05;               %Ships yaw_d 3.order LPF -9db frequency(-3dB = 0.0253)
 delta_max=deg2rad(25);      %Ships rudder maximum angle [rad]
 k_b0 = 0.009;               %Offset compansation [rad]
-kp_psi = 200;                %Feedback proportional error gain
-ki_psi = 0.5;               %Feedback integral error gain
-kd_psi = 500;               %Feedback derivative error gain
-%bode(tf([w_d 0],[1 alpha*w_d]),{0.001 1});
+kp_psi = 50;                %Feedback proportional error gain
+ki_psi = 0.7;               %Feedback integral error gain
+kd_psi = 350;               %Feedback derivative error gain
 save('Yaw_PID_controller');
 
 %System
@@ -26,7 +25,7 @@ k_b2 = b_2(3);
 load('Nomoto2_curvefitting');
 
 
-for i = 0:0
+for i = 0:1
     %Simulink
     IN = i;                     %0 = Step, 1 = Sine wave
     tstart= 0;                  %Sim start time
@@ -64,4 +63,10 @@ for i = 0:0
    % plot(t,rad2deg(r_m),'-.');
     legend('r_d','r','r_m','Location','NorthEast');
     title('Yaw rate controller');
+    
+    if i == 0
+        saveas(fig1,'Task1_4_step.eps','epsc');
+    elseif i==1
+        saveas(fig1,'Task1_4_sine.eps','epsc');
+    end
 end

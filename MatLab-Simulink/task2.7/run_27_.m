@@ -1,7 +1,6 @@
 close all; clear all; clc; scrsz = get(groot,'ScreenSize');
 
 load('WP.mat');
-w_psi = 0.01;
 load('../task1.4/Yaw_PID_controller');
 load('../task1.8/Speed controller')
 
