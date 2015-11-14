@@ -11,7 +11,7 @@ function pathplotter(x, y,  psi, tsamp, dec, tstart, tstop, track, WP)
 %x      is the ship's north position (in NED). x is a vector in R^T, T is 
 %          number of samples
 %y      is the ship's east position (in NED). y is a vector in R^T 
-%psi    is the ship's yaw angle (in NED). psi is a vector in R^T 
+%psi    is the ship's yaw angle (in NED). psi is a vector in R^T s
 %tsamp  is the sampling time
 %dec>=1 is how much of the data should be used in the plot. dec should 
 %          be a natural number. E.g. dec=2 reduces number of data points by
@@ -59,8 +59,8 @@ tnow=tstart;
 for now=1:dec:length(x)
     if track
         %Target
-        plot(WP(2,2)+3*sin(psiTemp)*(tnow-tstart)+target(2,:),WP(1,2)+3*cos(psiTemp)*(tnow-tstart)+target(1,:),'g');
-        patch(WP(2,2)+3*sin(psiTemp)*(tnow-tstart)+target(2,:),WP(1,2)+3*cos(psiTemp)*(tnow-tstart)+target(1,:),'g');
+        plot(   WP(2,2)+3*sin(psiTemp)*(tnow-tstart)+target(2,:),WP(1,2)+3*cos(psiTemp)*(tnow-tstart)+target(1,:),'g');
+        patch(  WP(2,2)+3*sin(psiTemp)*(tnow-tstart)+target(2,:),WP(1,2)+3*cos(psiTemp)*(tnow-tstart)+target(1,:),'g');
     end
     
     %MS Fartoystyring
@@ -88,13 +88,14 @@ if track
     dx = WP(1,2)+3*cos(psiTemp)*tim-x;
     dy = WP(2,2)+3*sin(psiTemp)*tim-y;
     
-    figure
+    fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
     plot(tim,sqrt(dx.^2+dy.^2));
     xlabel('time [s]')
     ylabel('distance [m]')
     title('Distance to target')
     
-    figure
+    fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
+
     hold on
     plot(tim, dx, 'r')
     plot(tim, dy)
@@ -149,7 +150,7 @@ else
 %     ylabel('distance [m]')
 %     title('Aling-track error')
     
-    fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
+    fig4 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
     plot(tim, e)
     xlabel('time [s]')
     ylabel('distance [m]')
