@@ -1,13 +1,13 @@
 close all; clear all; clc; 
 
 %Speed controller
-w_u = 0.011;                %u_d LPF -9dB frequency
-n_c_k = 1.02;               %Propeller force feed forwar koefficient
-n_c_max = 8.9;              %Propeller shaft max velocity [rad/s](85 rpm)
-n_dot_max = deg2rad(2.5);   %Propeller shaft max acceleration [rad/s2]               
-Kp_u = 20;                  %Feedback proportional error gain
-Ki_u = 0.1;                 %Feedback integral error gain
-save('Speed controller')
+w_u = 0.011;                    %u_d LPF -9dB frequency
+load('Speed_characteristics');  %Propeller force feed forwar koefficient
+n_c_max = 8.9;                  %Propeller shaft max velocity [rad/s](85 rpm)
+n_dot_max = deg2rad(2.5);       %Propeller shaft max acceleration [rad/s2]               
+Kp_u = 20;                      %Feedback proportional error gain
+Ki_u = 0.1;                     %Feedback integral error gain
+save('Speed controller')        %Store tuning for later tasks
 
 load('../task1.4/Yaw_PID_controller'); 
 scrsz = get(groot,'ScreenSize');
