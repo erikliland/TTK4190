@@ -38,9 +38,6 @@ fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL
 hold on;
 psiTemp=atan2(WP(2,2)-WP(2,1),WP(1,2)-WP(1,1));
 if track
-%     tim=tstart:tsamp:tstop;
-%     xp=WP(1,1)+3*cos(psiTemp)*tim;
-%     yp=WP(2,1)+3*sin(psiTemp)*tim;
     plot([WP(2,1), WP(2,2)+3*sin(psiTemp)*(tstop-tstart)], [WP(1,1), WP(1,2)+3*cos(psiTemp)*(tstop-tstart)], 'r')
 else
     siz=size(WP);
@@ -113,12 +110,8 @@ else
     tim=tstart:tsamp:tstop;
     e = zeros(length(tim), 1);
     s = zeros(length(tim), 1);
-%     e = zeros(length(tim), length(alph));
-%     s = zeros(length(tim), length(alph));
     tmpE = zeros(size(alph));
     tmpS = zeros(size(alph));
-    %mm = 0;
-    %mi = 1;
     eps = 5;
     mind = 1;
     minds = zeros(size(tim));
@@ -128,27 +121,14 @@ else
             tmpS(jj) = sqrt((WP(1,jj)-WP(1,jj+1))^2+(WP(2,jj)-WP(2,jj+1))^2)-tmpS(jj);
             tmpE(jj) = -(x(ii)-WP(1,jj))*sin(alph(jj))+(y(ii)-WP(2,jj))*cos(alph(jj));
         end
-        %[mm mi] = min(abs(tmp(mii:(mii+1))));
-        %e(ii) = tmp(mi);
-        if(tmpS(mind)<eps)
+        if(tmpS(mind)<eps) && (mind <= length(alph)-1)
             mind = mind+1;
         end
-        %disp(['Mind' int2str(mind)]);
+
         minds(ii) = mind;
         e(ii) = tmpE(mind);
         s(ii) = tmpS(mind);
-%         e(ii,:) = tmpE;
-%         s(ii,:) = tmpS;
     end
-    
-%     figure
-%     plot(tim, minds)
-    
-%     figure
-%     plot(tim, s)
-%     xlabel('time [s]')
-%     ylabel('distance [m]')
-%     title('Aling-track error')
     
     fig4 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
     plot(tim, e)

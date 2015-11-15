@@ -34,7 +34,7 @@ function pathplotter(x, y,  psi, tsamp, dec, tstart, tstop, track, WP)
 %
 %Bugs should be reported to the TA.
 close all; scrsz = get(groot,'ScreenSize');
-fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
+fig1 = figure('OuterPosition',[0 0 scrsz(3)/3 scrsz(4)]); %%%LAGT TIL AV OSS
 hold on;
 psiTemp=atan2(WP(2,2)-WP(2,1),WP(1,2)-WP(1,1));
 if track
@@ -46,6 +46,7 @@ else
     siz=size(WP);
     for ii=1:(siz(2)-1)
         plot([WP(2,ii), WP(2,ii+1)], [WP(1,ii), WP(1,ii+1)], 'r-x')
+        circle(WP(2,ii+1),WP(1,ii+1),500);
     end
 end
 plot(y, x)
@@ -76,6 +77,7 @@ hold off
 xlabel('East [m]')
 ylabel('North [m]')
 axis equal
+saveas(fig1,'Task2_3-1.eps','epsc');
 
 if track
     tim=tstart:tsamp:tstop;
@@ -112,12 +114,8 @@ else
     tim=tstart:tsamp:tstop;
     e = zeros(length(tim), 1);
     s = zeros(length(tim), 1);
-%     e = zeros(length(tim), length(alph));
-%     s = zeros(length(tim), length(alph));
     tmpE = zeros(size(alph));
     tmpS = zeros(size(alph));
-    %mm = 0;
-    %mi = 1;
     eps = 5;
     mind = 1;
     minds = zeros(size(tim));
@@ -127,31 +125,19 @@ else
             tmpS(jj) = sqrt((WP(1,jj)-WP(1,jj+1))^2+(WP(2,jj)-WP(2,jj+1))^2)-tmpS(jj);
             tmpE(jj) = -(x(ii)-WP(1,jj))*sin(alph(jj))+(y(ii)-WP(2,jj))*cos(alph(jj));
         end
-        %[mm mi] = min(abs(tmp(mii:(mii+1))));
-        %e(ii) = tmp(mi);
-        if(tmpS(mind)<eps)
+
+        if(tmpS(mind)<eps) && (mind <= length(alph)-1)
             mind = mind+1;
         end
-        %disp(['Mind' int2str(mind)]);
         minds(ii) = mind;
         e(ii) = tmpE(mind);
         s(ii) = tmpS(mind);
-%         e(ii,:) = tmpE;
-%         s(ii,:) = tmpS;
     end
-    
-%     figure
-%     plot(tim, minds)
-    
-%     figure
-%     plot(tim, s)
-%     xlabel('time [s]')
-%     ylabel('distance [m]')
-%     title('Aling-track error')
     
     fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
     plot(tim, e)
     xlabel('time [s]')
     ylabel('distance [m]')
     title('Cross-track error')
+    saveas(fig2,'Task2_3-2.eps','epsc');
 end

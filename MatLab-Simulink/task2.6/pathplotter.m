@@ -112,12 +112,8 @@ else
     tim=tstart:tsamp:tstop;
     e = zeros(length(tim), 1);
     s = zeros(length(tim), 1);
-%     e = zeros(length(tim), length(alph));
-%     s = zeros(length(tim), length(alph));
     tmpE = zeros(size(alph));
     tmpS = zeros(size(alph));
-    %mm = 0;
-    %mi = 1;
     eps = 5;
     mind = 1;
     minds = zeros(size(tim));
@@ -127,28 +123,16 @@ else
             tmpS(jj) = sqrt((WP(1,jj)-WP(1,jj+1))^2+(WP(2,jj)-WP(2,jj+1))^2)-tmpS(jj);
             tmpE(jj) = -(x(ii)-WP(1,jj))*sin(alph(jj))+(y(ii)-WP(2,jj))*cos(alph(jj));
         end
-        %[mm mi] = min(abs(tmp(mii:(mii+1))));
-        %e(ii) = tmp(mi);
-        if(tmpS(mind)<eps)
+        
+        if(tmpS(mind)<eps) && (mind <= length(alph)-1)
             mind = mind+1;
         end
-        %disp(['Mind' int2str(mind)]);
+        
         minds(ii) = mind;
         e(ii) = tmpE(mind);
         s(ii) = tmpS(mind);
-%         e(ii,:) = tmpE;
-%         s(ii,:) = tmpS;
     end
-    
-%     figure
-%     plot(tim, minds)
-    
-%     figure
-%     plot(tim, s)
-%     xlabel('time [s]')
-%     ylabel('distance [m]')
-%     title('Aling-track error')
-    
+
     fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
     plot(tim, e)
     xlabel('time [s]')
