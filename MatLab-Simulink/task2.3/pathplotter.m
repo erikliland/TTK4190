@@ -134,8 +134,9 @@ else
         s(ii) = tmpS(mind);
     end
     
-    fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
+    fig2 = figure('OuterPosition',[scrsz(3)/3 scrsz(4)/2 scrsz(3)*2/3 scrsz(4)/2]);
     plot(tim, e)
+    line([0 tstop],[0 0],'Color','black');
     xlabel('time [s]')
     ylabel('distance [m]')
     title('Cross-track error')

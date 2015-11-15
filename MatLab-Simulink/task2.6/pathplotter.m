@@ -34,18 +34,16 @@ function pathplotter(x, y,  psi, tsamp, dec, tstart, tstop, track, WP)
 %
 %Bugs should be reported to the TA.
 close all; scrsz = get(groot,'ScreenSize');
-fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
+fig1 = figure('OuterPosition',[0 0 scrsz(3)/3 scrsz(4)]); %%%LAGT TIL AV OSS
 hold on;
 psiTemp=atan2(WP(2,2)-WP(2,1),WP(1,2)-WP(1,1));
 if track
-%     tim=tstart:tsamp:tstop;
-%     xp=WP(1,1)+3*cos(psiTemp)*tim;
-%     yp=WP(2,1)+3*sin(psiTemp)*tim;
     plot([WP(2,1), WP(2,2)+3*sin(psiTemp)*(tstop-tstart)], [WP(1,1), WP(1,2)+3*cos(psiTemp)*(tstop-tstart)], 'r')
 else
     siz=size(WP);
     for ii=1:(siz(2)-1)
         plot([WP(2,ii), WP(2,ii+1)], [WP(1,ii), WP(1,ii+1)], 'r-x')
+        circle(WP(2,ii+1),WP(1,ii+1),500);
     end
 end
 plot(y, x)
@@ -76,6 +74,7 @@ hold off
 xlabel('East [m]')
 ylabel('North [m]')
 axis equal
+saveas(fig1,'Task2_6-1.eps','epsc');
 
 if track
     tim=tstart:tsamp:tstop;
@@ -133,9 +132,11 @@ else
         s(ii) = tmpS(mind);
     end
 
-    fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
+    fig2 = figure('OuterPosition',[scrsz(3)/3 scrsz(4)/2 scrsz(3)*2/3 scrsz(4)/2]);
     plot(tim, e)
+    line([0 tstop],[0 0],'Color','black')
     xlabel('time [s]')
     ylabel('distance [m]')
     title('Cross-track error')
+    saveas(fig2,'Task2_6-2.eps','epsc');
 end

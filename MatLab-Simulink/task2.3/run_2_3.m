@@ -5,7 +5,7 @@ load('../task1.4/Yaw_PID_controller');
 load('../task1.8/Speed controller')
 
 tstart = 0;      %Sim start time
-tstop = 2800;    %Sim stop time
+tstop = 2700;    %Sim stop time
 tsamp = 10;      %Sampling time (NOT ODE solver time step)
 
 p0 = zeros(2,1); %Initial position (NED)
