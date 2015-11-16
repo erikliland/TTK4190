@@ -34,7 +34,7 @@ function pathplotter(x, y,  psi, tsamp, dec, tstart, tstop, track, WP)
 %
 %Bugs should be reported to the TA
 close all; scrsz = get(groot,'ScreenSize');
-fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
+fig1 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)]); %%%LAGT TIL AV OSS
 hold on;
 psiTemp=atan2(WP(2,2)-WP(2,1),WP(1,2)-WP(1,1));
 if track
@@ -74,6 +74,11 @@ xlabel('East [m]')
 ylabel('North [m]')
 axis equal
 saveas(fig1,'Task2_7-1.eps','epsc');
+oA = gca;
+axis([oA.XLim(2)*0.9 oA.XLim(2) oA.YLim(2)*0.9 oA.YLim(2)]);
+saveas(fig1,'Task2_7-1-zoom.eps','epsc');
+axis([-500 oA.XLim(2) -500 oA.YLim(2)]);
+axis equal;
 
 if track
     tim=tstart:tsamp:tstop;
@@ -95,7 +100,7 @@ if track
     title('Distance to target')
     saveas(fig2,'Task2_7-2.eps','epsc');
     
-    fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
+    fig3 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
     hold on
     plot(tim, dx, 'r')
     plot(tim, dy)

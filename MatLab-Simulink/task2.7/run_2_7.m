@@ -28,7 +28,7 @@ D2T     = 500;   %The desired distance between target and interceptor  [m]
 
 sim task2_7
 
-pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 1, WP)
+pathplotter(p(:,1), p(:,2),  psi, tsamp, 20, tstart, tstop, 1, WP)
 
 % fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);
 % hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
@@ -40,10 +40,10 @@ pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 1, WP)
 % legend('\chi_d','\psi_d','\psi_{d_f}','\psi','\beta_f');
  
 
-fig4 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
-hold on; xlabel('Time [s]'); ylabel('Speed [m/s]');
-plot(t,U_d);
-plot(t,u_d,'-.');
-plot(t,u_d_f,'--');
-plot(t,U_ship(:,1));
-legend('U_d','u_d','u_d_f','u','Location','best');
+% fig4 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
+% hold on; xlabel('Time [s]'); ylabel('Speed [m/s]');
+% plot(t,U_d);
+% plot(t,u_d,'-.');
+% plot(t,u_d_f,'--');
+% plot(t,U_ship(:,1));
+% legend('U_d','u_d','u_d_f','u','Location','best');

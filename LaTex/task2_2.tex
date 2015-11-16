@@ -1,11 +1,12 @@
-\subsection{Path following}\label{sec:prob2.2}
-\begin{wrapfigure}{R}{0.4 \textwidth}
+\subsection{Path following}\label{subsec:prob2.2}
+\begin{wrapfigure}{r}{0.5 \textwidth}
    \vspace{-30pt}
-   \begin{center}
+   \centering
     \includegraphics[width=0.6\textwidth]{task2.3/Task2_3-1}
+    \vspace{-20pt}
     \caption{Path following}
-   \end{center}
     \label{fig:2.3-path}
+    \vspace{-10pt}
 \end{wrapfigure}
 
 We implemented a lookahead-based steering law, based on figure (10.10) in Fossen (2011). The desired course $\chi_d$ is made up of two parts, a path-angle $\chi_p$ and a cross-track error correction $\chi_r$. The cross-track error correction is essentially a PI-controller, normalized with an inverse tangent. The proportional gain is the inverse of the lookahead distance $\Delta_s$ which is a design parameter.
@@ -13,6 +14,7 @@ We implemented a lookahead-based steering law, based on figure (10.10) in Fossen
 	K_p = \frac{1}{\Delta_s}
 \end{equation}
 The integral effect of the controller is quite complex, since we only want the integrator to compensate for small slow-changing disturbances like wind and current. To achieve this, we made an integral structure that takes into consideration the yaw rate of the ship $r$, the cross-track error $e$, a soft maximum integral effect and an anti-wind-up corrector and a regular gain on the end result. The total control law is listed in equation \ref{eq:PI-control-law}.
+
 \begin{equation}
 \begin{split}
 	\chi_d &= \chi_p + \chi_r \\
@@ -26,12 +28,12 @@ The integral effect of the controller is quite complex, since we only want the i
 \end{split}
 \label{eq:PI-control-law}
 \end{equation}
+From the cross-track error (figure \ref{fig:2.3-error}) it can be seen that when the ship first get aligned and on the track, the error stays within \num{\pm200}{m}.
 
-
-
-\begin{figure}
+\begin{figure}[ht]
    \centering
-    \includegraphics[width= \textwidth, height = 200pt]{task2.3/Task2_3-2}
+    \includegraphics[width= \textwidth, height = 0.3 \textheight]{task2.3/Task2_3-2}
     \caption{Cross-track error}
     \label{fig:2.3-error}
 \end{figure}
+

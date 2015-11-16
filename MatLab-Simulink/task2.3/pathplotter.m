@@ -140,5 +140,6 @@ else
     xlabel('time [s]')
     ylabel('distance [m]')
     title('Cross-track error')
+    axis tight;
     saveas(fig2,'Task2_3-2.eps','epsc');
 end

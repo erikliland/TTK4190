@@ -21,11 +21,14 @@ I_max  = 0.15;
 
 sim task2_3
 
-pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
+pathplotter(p(:,1), p(:,2),  psi, tsamp, 10, tstart, tstop, 0, WP)
 
-% fig3 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
-% hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
-% plot(t,rad2deg(psi_d),'-.');
-% plot(t,rad2deg(psi_d_f),'--');
-% plot(t,rad2deg(psi));
-% legend('\psi_d','\psi_{d_f}','\psi');
+fig3 = figure('OuterPosition',[scrsz(3)/3 0 scrsz(3)*2/3 scrsz(4)/2]);
+hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
+plot(t,rad2deg(psi_d),'-.');
+plot(t,rad2deg(psi_d_f),'--');
+plot(t,rad2deg(psi));
+legend('\psi_d','\psi_{d_f}','\psi');
+title('Heading referance following');
+axis tight;
+saveas(fig3,'Task2_3-3','epsc');
