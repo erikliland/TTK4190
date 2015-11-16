@@ -13,7 +13,7 @@ We implemented a lookahead-based steering law, based on figure (10.10) in Fossen
 \begin{equation}
 	K_p = \frac{1}{\Delta_s}
 \end{equation}
-The integral effect of the controller is quite complex, since we only want the integrator to compensate for small slow-changing disturbances like wind and current. To achieve this, we made an integral structure that takes into consideration the yaw rate of the ship $r$, the cross-track error $e$, a soft maximum integral effect and an anti-wind-up corrector and a regular gain on the end result. The total control law is listed in equation \ref{eq:PI-control-law}.
+The integral effect of the controller is quite complex, since we only want the integrator to compensate for small slow-changing disturbances like wind and current when the ship has come to a near steady state. To achieve this, we made an integral structure that takes into consideration the yaw rate of the ship $r$, the cross-track error $e$, a soft maximum integral effect and an anti-wind-up corrector and a regular gain on the end result. The total control law is listed in equation \ref{eq:PI-control-law}.
 
 \begin{equation}
 \begin{split}

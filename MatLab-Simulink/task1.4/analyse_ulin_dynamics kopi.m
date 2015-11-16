@@ -1,7 +1,7 @@
-close all; clear all; clc; scrsz = get(groot,'ScreenSize'); OPT = optimset('Display','off');
-
+close all; clear all; clc; scrsz = get(groot,'ScreenSize'); 
+OPT = optimset('Display','off'); load('Delta_r_data');
 tstart=0;      %Sim start time
-tstop=1000;    %Sim stop time
+tstop=1800;    %Sim stop time
 tsamp=10;      %Sampling time (NOT ODE solver time step)
 
 p0=zeros(2,1); %Initial position (NED)
@@ -10,71 +10,8 @@ psi0=0;        %Inital yaw angle
 r0=0;          %Inital yaw rate
 c=0;           %Current on (1)/off (0)
 
-% Delta-R plot
-if exist('Delta_r_data.mat','file')~=2
-    disp('Kjører Delta-r simuleringer');
-    delta_c_max = deg2rad(25);
-    n=300;
-    compensate = 1;
-    Run_Delta_R_Sim( delta_c_max , n, compensate, tstop, tsamp)
-end
-load('Delta_r_data')
-fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
-hold on; grid on; ylabel('Yaw rate [deg/s]'); xlabel('\delta [deg]');
-plot(rad2deg(d_list),rad2deg(r_list));
-saveas(fig1,'Task1_4_delta_r_plot.eps','epsc');
-close(fig1);
-
 %%%%% Curvefitting %%%%%
 delta_offset = 0.009; %Constant delta_c input [rad]
-
-% Nomoto 2. ordens lineær model
-fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]);
-hold on; grid off; ylabel('Yaw rate [deg/s]'); xlabel('Time [s]');
-title('2st order linear Nomoto model compared to ship response','FontSize',14);
-
-for delta = 5:10:25
-    delta_c = deg2rad(delta); %maks +-25deg
-    sim MSFartoystyring;
-    x0 = [2000 100 3000 50]';
-    F1 = @(x,t,delta_c) delta_c*(x(4)-(x(4)*exp(-t/x(1))*(x(1)-x(3)))/(x(1)-x(2))+(x(4)*exp(-t/x(2))*(x(2)-x(3)))/(x(1)-x(2)));
-    F2 = @(x,t) F1(x,t,delta_c);
-    x = lsqcurvefit(F2, x0, t, r,[],[],OPT);
-    T1 = x(1);
-    T2 = x(2);
-    T3 = x(3);
-    K  = x(4);
-    plot(t, rad2deg(r),'o' )
-    plot(t, rad2deg(F2(x,t)), 'LineWidth',2);
-end
-axis([0 tstop 0 0.55]);
-legend( 'Ship, \delta = 5' ,'Nomoto2, \delta = 5', ...
-        'Ship, \delta = 15','Nomoto2, \delta = 15',...
-        'Ship, \delta = 25','Nomoto2, \delta = 25'); 
-saveas(fig2,'Task1_4_Nomoto2.eps','epsc');
-
-% Nomoto 1. ordens lineær model
-fig3 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
-hold on; grid off; ylabel('Yaw rate [deg/s]'); xlabel('Time [s]');
-title('1st order linear Nomoto model compared to ship response','FontSize',14);
-
-for delta = 5:10:25 %maks +-25deg
-    delta_c = deg2rad(delta);
-    sim MSFartoystyring;
-    x0 = [50 0.1];
-    F3 = @(x,t,delta_c) r0*exp(-t/x(1)) + x(2)* delta_c *(1 - exp(-t/x(1)));
-    F4 = @(x,t) F3(x,t,delta_c);
-    x = lsqcurvefit(F4, x0, t, r,[],[],OPT);
-    T = x(1);
-    K = x(2);
-    plot(t, rad2deg(r),'o');
-    plot(t, rad2deg(F4(x,t)),'LineWidth',2);
-end
-axis([0 tstop 0 0.55]);
-legend( 'Ship, \delta = 5' ,'Nomoto1, \delta = 5', ...
-        'Ship, \delta = 15','Nomoto1, \delta = 15',...
-        'Ship, \delta = 25','Nomoto1, \delta = 25'); 
-saveas(fig3,'Task1_4_Nomoto1.eps','epsc');
 
 % Nomoto 2. ordens ulineær model [delta-r steady state]
 if ~exist('r_list_c','var')

@@ -30,15 +30,14 @@ sim task2_7
 
 pathplotter(p(:,1), p(:,2),  psi, tsamp, 20, tstart, tstop, 1, WP)
 
-% fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);
-% hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
-% plot(t,rad2deg(chi_d),'--');
-% plot(t,rad2deg(psi_d),'--');
-% plot(t,rad2deg(psi_d_f),'-.');
-% plot(t,rad2deg(psi));
-% plot(t,rad2deg(beta_f));
-% legend('\chi_d','\psi_d','\psi_{d_f}','\psi','\beta_f');
- 
+fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);
+hold on; xlabel('Time [s]'); ylabel('Angle [deg]');
+plot(t,rad2deg(chi_d),'--');
+plot(t,rad2deg(psi_d),'--');
+plot(t,rad2deg(psi_d_f),'-.');
+plot(t,rad2deg(psi));
+plot(t,rad2deg(beta_f));
+legend('\chi_d','\psi_d','\psi_{d_f}','\psi','\beta_f');
 
 % fig4 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
 % hold on; xlabel('Time [s]'); ylabel('Speed [m/s]');
