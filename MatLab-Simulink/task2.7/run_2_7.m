@@ -5,14 +5,14 @@ load('../task1.4/Yaw_PID_controller');
 load('../task1.8/Speed controller')
 
 tstart  = 0;      %Sim start time
-tstop   = 3500;   %Sim stop time
+tstop   = 4000;   %Sim stop time
 tsamp   = 10;     %Sampling time (NOT ODE solver time step)
 
 p0 = zeros(2,1); %Initial position (NED)
 v0 = [6.63 0]';  %Initial velocity (body)
 psi0 = 0;        %Inital yaw angle
 r0 = 0;          %Inital yaw rate
-c = 0;           %Current on (1)/off (0)
+c = 1;           %Current on (1)/off (0)
 U_t = 3;         %Surge speed of the target [m/s]
 psi_T = atan2(WP(2,2)-WP(2,1),WP(1,2)-WP(1,1)); %Target course angle
 V_t = [3*cos(psi_T) ; 3*sin(psi_T)];
@@ -21,8 +21,9 @@ V_t = [3*cos(psi_T) ; 3*sin(psi_T)];
 R       = 1200;  %Lookhahead distance [m]
 Ki_LOS  = 2e-6;  %Integral gain in heading compensator
 I_max   = 0.06;  %Maximum effect of integral heading compensator
-U_a_max = 4;     %The maximum approach speed towards the target      [m/s]
-DELTA_p = 2500;  %Transient interceptor-target rendevuz behavior
+U_a_max = 4;   %The maximum approach speed towards the target [m/s]
+w_u = 0.06;
+DELTA_p = 1300;  %Transient interceptor-target rendevuz behavior
 D2T     = 500;   %The desired distance between target and interceptor  [m]
 
 sim task2_7

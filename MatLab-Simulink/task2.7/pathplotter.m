@@ -32,7 +32,7 @@ function pathplotter(x, y,  psi, tsamp, dec, tstart, tstop, track, WP)
 %
 %You are free to modify the code as necessary.
 %
-%Bugs should be reported to the TA.
+%Bugs should be reported to the TA
 close all; scrsz = get(groot,'ScreenSize');
 fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
 hold on;
@@ -73,6 +73,7 @@ hold off
 xlabel('East [m]')
 ylabel('North [m]')
 axis equal
+saveas(fig1,'Task2_7-1.eps','epsc');
 
 if track
     tim=tstart:tsamp:tstop;
@@ -87,12 +88,14 @@ if track
     
     fig2 = figure('OuterPosition',[scrsz(3)/2 scrsz(4)/2 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
     plot(tim,sqrt(dx.^2+dy.^2));
+    line([0 tstop],[500 500],'Color','red','LineStyle','--');
+    text(tstop*0.55, sqrt(dx(end)^2+dy(end)^2)*2.3,'Desired distance to target = 500m','FontSize',12);
     xlabel('time [s]')
     ylabel('distance [m]')
     title('Distance to target')
+    saveas(fig2,'Task2_7-2.eps','epsc');
     
     fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]); %%%LAGT TIL AV OSS
-
     hold on
     plot(tim, dx, 'r')
     plot(tim, dy)
@@ -101,6 +104,8 @@ if track
     title('Distance to target')
     legend('x', 'y')
     hold off
+    saveas(fig3,'Task2_7-3.eps','epsc');
+    
 else
     sw = size(WP);
     alph = zeros(max(sw)-1, 1);
