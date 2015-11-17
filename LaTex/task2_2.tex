@@ -9,7 +9,7 @@
     \vspace{-10pt}
 \end{wrapfigure}
 
-We implemented a lookahead-based steering law, based on figure (10.10) in Fossen (2011). The desired course $\chi_d$ is made up of two parts, a path-angle $\chi_p$ and a cross-track error correction $\chi_r$. The cross-track error correction is essentially a PI-controller, normalized with an inverse tangent. The proportional gain is the inverse of the lookahead distance $\Delta_s$ which is a design parameter.
+We implemented a lookahead-based steering law, based on figure (10.10) in Fossen (2011), which kinematically guarantee path following. The desired course $\chi_d$ is made up of two parts, a path-angle $\chi_p$ and a cross-track error correction $\chi_r$. The cross-track error correction is essentially a PI-controller, normalized with an inverse tangent. The proportional gain is the inverse of the lookahead distance $\Delta_s$ which is a design parameter.
 \begin{equation}
 	K_p = \frac{1}{\Delta_s}
 \end{equation}
