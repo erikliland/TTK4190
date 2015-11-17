@@ -91,8 +91,15 @@ When curve fitting this model we got as expected a response which is not able to
 \subsubsection*{Heading model conclusion}
 Both first order models where not able to follow the overshoot and oscillations to the ship, and would therefore make a poor model. The second order model with non-linearities was hard to get good steady-state solution on, and was very hard to do curve fitting on. Which in turns means that the model preformed bad. This leaves us with the second order linear model which where easy to curve-fit to the original response, and preformed quite well. This is the model we are using through the rest of the assignment, with an added integrator for heading. 
 \begin{equation}
-    \frac{\psi}{\delta}(s) =0.03 \frac{(1+320 s)}{s(1+130 s) (1+150 s) } \\
+    \frac{\psi}{\delta_c}(s) =0.03 \frac{(1+320 s)}{s(1+130 s) (1+150 s) } \\
 \end{equation}
 
 \subsubsection*{Heading control law}
 When using a linear model, the obvious choice of controller would be a PID. We have a stable ship under the influence of current, so we need at least a PI-controller. We ended up using this controller.
+
+\begin{equation}
+\begin{split}
+    \delta_c &= K_p \tilde{\psi} - K_i \int \tilde{\psi} - K_d \tilde{r} + b_0,\\
+    K_p &= 50,\quad K_i=0.7,\quad K_d=350,\quad b_0=009
+\end{split}
+\end{equation}
