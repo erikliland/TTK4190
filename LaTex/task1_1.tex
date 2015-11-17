@@ -48,7 +48,7 @@ We also tried the first order version Nomoto, and as expected the model will onl
 	H_B(r) &= b_3r^3 + b_2r^2 + b_1r + b_0
 \end{split}
 \end{equation}
-Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of in the fixed rudder offset, and the assumed symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. By curve fitting $H_B(r)=b_3r^3 + b_1r=\delta$ to the obtained delta-r curve, we estimate the parameters $b_3$ and $b_1$. We also tried to add a second order term in the equation, and the resulting curve is much better for smaller rudder angles.
+Here the steady state of $H_B(r)=\delta$, and $b_0$ have already been taken care of in the fixed rudder offset, and the assumed symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. By curve fitting $H_B(r)=b_3r^3 + b_1r=\delta$ to the obtained delta-r curve, we estimate the parameters $b_3$ and $b_1$. We also tried to add a second order term in the equation, and the resulting curve is much better for smaller rudder angles.
 \begin{figure}[H]
     \centering
     \includegraphics[width= \textwidth]{task1.4/Task1_4_Nomoto2_delta_r}
@@ -56,7 +56,7 @@ Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of
     \label{fig:nomoto2_delta_r}
 \end{figure}
 
-When curve fitting this model to the ship, the errors in the estimated ship characteristics becomes very clear. Since the steady-state is $b_3 r^3 + b_2 r^2 + b_1 r = \delta$, and we can see from figure \ref{fig:nomoto2_lin} that the only rudder angle where the actual and estimated curves intersect is at $\delta = 17\degree$, this is the only rudder angle where the steady-state model solution will match the ship as seen in figure \ref{fig:nomoto2_nonlin}.
+When curve fitting this model to the ship, the errors in the estimated ship characteristics becomes very clear. Since the steady-state is $b_3 r^3 + b_2 r^2 + b_1 r = \delta$, and we can see from figure \ref{fig:nomoto2_lin} that the only rudder angle where the actual and estimated curves intersect is at about $\delta = 17\degree$, this is the only rudder angle where the steady-state model solution will match the ship as seen in figure \ref{fig:nomoto2_nonlin}.
     
 \begin{figure}[H]
     \centering
@@ -73,7 +73,7 @@ Norbins' extension of the linear first order model:
 	H_N(r) = n_3r^3 + n_2r^2 + n_1r + n_0
 \end{split}
 \end{equation}
-Where the steady state of $H_N(r)=K\delta$. We know from Fossen(2011) that $n_i = \frac{b_i}{|b_1|}$, and since our ship is stable we know that $n_1=1$, and $n_3 = sign(b_3)=1$ thus resulting in following model.
+Where the steady state of $H_N(r)=K\delta$. We know from \cite{fossen_2011} that $n_i = \frac{b_i}{|b_1|}$, and since our ship is stable we know that $n_1=1$, and $n_3 = sign(b_3)=1$ thus resulting in following model.
 \begin{equation}
 \begin{split}
 	T\dot{r}+r^3 + r=K\delta 
@@ -96,10 +96,19 @@ Both first order models where not able to follow the overshoot and oscillations 
 
 \subsubsection*{Heading control law}
 When using a linear model, the obvious choice of controller would be a PID. We have a stable ship under the influence of current, so we need at least a PI-controller. We ended up using this controller.
-
 \begin{equation}
 \begin{split}
     \delta_c &= K_p \tilde{\psi} - K_i \int \tilde{\psi} - K_d \tilde{r} + b_0,\\
     K_p &= 50,\quad K_i=0.7,\quad K_d=350,\quad b_0=009
 \end{split}
 \end{equation}
+In addition we are filtering $\psi_d$ with a third order low pass filter to avoid sharp spikes in the derivate part of the controller. We are using pure derivative ($s$) to avoid phase lag on the derivative compared with the rest of the controller. The bandwidth of the filter is set slightly lower than the maximum bandwidth of the ship.
+
+\subsubsection*{Sine wave tracking}
+From figure \ref{fig:1.4-sine} we can see that the ship is following the desired heading after a short time, when the initial transient is gone. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{task1.4/Task1_4_sine}
+    \caption{Sine wave tracking}
+    \label{fig:1.4-sine}
+\end{figure}

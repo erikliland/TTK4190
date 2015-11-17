@@ -2,7 +2,9 @@ close all; clear all; clc; scrsz = get(groot,'ScreenSize');
 
 load('WP.mat');
 load('../task1.4/Yaw_PID_controller');
-load('../task1.8/Speed controller')
+load('../task1.8/Speed controller');
+load('../task1.4/Heading_model.mat');
+load('../task2.6/Sway_model.mat');
 
 tstart = 0;      %Sim start time
 tstop = 2700;    %Sim stop time
@@ -21,7 +23,7 @@ I_max  = 0.1;
 
 sim task2_6
 
-pathplotter(p(:,1), p(:,2),  psi, tsamp, 1, tstart, tstop, 0, WP)
+pathplotter(p(:,1), p(:,2),  psi, tsamp, 10, tstart, tstop, 0, WP)
 
 % fig3 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);
 % hold on; xlabel('Time [s]'); ylabel('Angle [deg]');

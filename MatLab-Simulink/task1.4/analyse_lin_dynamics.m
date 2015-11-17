@@ -19,6 +19,7 @@ hold on; grid off; ylabel('Yaw rate [deg/s]'); xlabel('Time [s]');
 title('2st order linear Nomoto model compared to ship response','FontSize',14);
 delta_list = 2:5:20; %maks +-25deg
 legend_string = cell(length(delta_list),1);
+coeff_mtx = zeros(4,length(delta_list));
 for i = 1:length(delta_list) 
     delta_c = deg2rad(delta_list(i));
     sim MSFartoystyring;
@@ -29,6 +30,7 @@ for i = 1:length(delta_list)
     T2 = x(2);
     T3 = x(3);
     K  = x(4);
+    coeff_mtx(:,i) = [T1 T2 T3 K]';
     plot(t, rad2deg(r),'o' )
     plot(t, rad2deg(F2(x,t)), 'LineWidth',2);
     text(500+delta_list(i)*40, 0.1,{['\delta=', num2str(delta_list(i))],['T1=',num2str(T1,3)],['T2=',num2str(T2,3)],['T3=',num2str(T3,3)],['K=',num2str(K,3)]});
@@ -38,6 +40,12 @@ end
 axis([0 tstop 0 0.55]);
 legend(legend_string);
 saveas(fig2,'Task1_4_Nomoto2.eps','epsc');
+coeff_mean = mean(coeff_mtx,2);
+T1 = coeff_mean(1);
+T2 = coeff_mean(2);
+T3 = coeff_mean(3);
+K  = coeff_mean(4);
+save('Heading_model','T1','T2','T3','K');
 
 % Nomoto 1. ordens lineær model
 fig3 = figure('OuterPosition',[scrsz(3)/2 0 scrsz(3)/2 scrsz(4)/2]);
