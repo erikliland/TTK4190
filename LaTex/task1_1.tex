@@ -99,7 +99,7 @@ When using a linear model, the obvious choice of controller would be a PID. We h
 \begin{equation}
 \begin{split}
     \delta_c &= K_p \tilde{\psi} - K_i \int \tilde{\psi} - K_d \tilde{r} + b_0,\\
-    K_p &= 50,\quad K_i=0.7,\quad K_d=350,\quad b_0=009
+    K_p &= 50,\quad K_i=0.7,\quad K_d=350,\quad b_0=0.09
 \end{split}
 \end{equation}
 In addition we are filtering $\psi_d$ with a third order low pass filter to avoid sharp spikes in the derivate part of the controller. We are using pure derivative ($s$) to avoid phase lag on the derivative compared with the rest of the controller. The bandwidth of the filter is set slightly lower than the maximum bandwidth of the ship.

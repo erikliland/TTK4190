@@ -26,7 +26,7 @@ c   = 1;                    %Current on (1)/off (0)
 
 sim task1_8
 
-fig1 = figure('OuterPosition',[0 scrsz(4)/2 scrsz(3)/2 scrsz(4)]);
+fig1 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)]);
 subplot(2,1,1); hold on; xlabel('Time [s]'); ylabel('Speed [m/s]');
 plot(t,u_e);
 legend('u_e','Location','Best');

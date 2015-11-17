@@ -4,7 +4,6 @@ load('WP.mat');
 load('../task1.4/Yaw_PID_controller');
 load('../task1.8/Speed controller');
 load('../task1.4/Heading_model.mat');
-load('../task2.6/Sway_model.mat');
 
 tstart = 0;      %Sim start time
 tstop = 2700;    %Sim stop time
