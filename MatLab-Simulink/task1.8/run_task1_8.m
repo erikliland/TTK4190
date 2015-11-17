@@ -14,7 +14,7 @@ scrsz = get(groot,'ScreenSize');
 
 %Simulation
 tstart= 0;                  %Sim start time
-tstop = 4000;               %Sim stop time
+tstop = 2000;               %Sim stop time
 tsamp = 10;                  %Sampling time (NOT ODE solver time step)
 
 %System

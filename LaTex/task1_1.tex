@@ -31,7 +31,7 @@ The second order Nomoto model follows the ship´s overshoot quite well.
 	\frac{r}{\delta}(s) = \frac{K}{(1+Ts) } \\
 \end{equation}
 
-We also tried the first order version Nomoto, and as expected the model will only be accurate for small rudder angles, and is therefore not very good for modeling the non-linearities.
+We also tried the first order version Nomoto, and as expected the model will only be accurate for small rudder angles, and is therefore not very good for modeling the overshoot and non-linearities.
 
 \begin{figure}[H]
     \centering
@@ -44,17 +44,19 @@ We also tried the first order version Nomoto, and as expected the model will onl
 \subsubsection*{2. order non-linear Nomoto}
 \begin{equation}
 \begin{split}
-	T_1 T_2 \ddot{r} + (T_1 + T_2)\dot{r} + KH_b(r) = K(\delta + T_3\dot{\delta}) \\
-	H_B(r) = b_3r^3 + b_2r^2 + b_1r + b_0
+	T_1 T_2 \ddot{r} + (T_1 + T_2)\dot{r} + KH_B(r) &= K(\delta + T_3\dot{\delta}) \\
+	H_B(r) &= b_3r^3 + b_2r^2 + b_1r + b_0
 \end{split}
 \end{equation}
-Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of in the fixed rudder offset, and by symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. By curve fitting $H_B(r)=b_3r^3 + b_1r=\delta$ to the obtained delta-r curve, we estimate the parameters $b_3$ and $b_1$.
+Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of in the fixed rudder offset, and the assumed symmetry in the hull leads to $b_2 = 0$. We then only need the first- and third-order term to describe the maneuvering characteristics. By curve fitting $H_B(r)=b_3r^3 + b_1r=\delta$ to the obtained delta-r curve, we estimate the parameters $b_3$ and $b_1$. We also tried to add a second order term in the equation, and the resulting curve is much better for smaller rudder angles.
 \begin{figure}[H]
     \centering
     \includegraphics[width= \textwidth]{task1.4/Task1_4_Nomoto2_delta_r}
-    \caption{Third degree approximation of ship characteristics}
+    \caption{Approximation of ship characteristics}
     \label{fig:nomoto2_delta_r}
 \end{figure}
+
+When curve fitting this model to the ship, the errors in the estimated ship characteristics becomes very clear. Since the steady-state is $b_3 r^3 + b_2 r^2 + b_1 r = \delta$, and we can see from figure \ref{fig:nomoto2_lin} that the only rudder angle where the actual and estimated curves intersect is at $\delta = 17\degree$, this is the only rudder angle where the steady-state model solution will match the ship as seen in figure \ref{fig:nomoto2_nonlin}.
     
 \begin{figure}[H]
     \centering
@@ -63,8 +65,6 @@ Where the steady state of $H_B(r)=\delta$. $b_0$ have already been taken care of
     \label{fig:nomoto2_nonlin}
 \end{figure}
 
-
-\newpage
 \subsubsection*{1. order non-linear Nomoto}
 Norbins' extension of the linear first order model:
 \begin{equation}
@@ -73,12 +73,13 @@ Norbins' extension of the linear first order model:
 	H_N(r) = n_3r^3 + n_2r^2 + n_1r + n_0
 \end{split}
 \end{equation}
-Where the steady state of $H_N(r)=K\delta$. We know that $n_i = \frac{b_i}{|b_1|}$, and since our ship is stable we know that $n_1=1$, and $n_3 = sign(b_3)=1$ thus resulting in following model.
+Where the steady state of $H_N(r)=K\delta$. We know from Fossen(2011) that $n_i = \frac{b_i}{|b_1|}$, and since our ship is stable we know that $n_1=1$, and $n_3 = sign(b_3)=1$ thus resulting in following model.
 \begin{equation}
 \begin{split}
 	T\dot{r}+r^3 + r=K\delta 
 \end{split}
 \end{equation}
+When curve fitting this model we got as expected a response which is not able to follow the overshoot to the ship as seen in figure \ref{fig:nomoto1_nonlin}.
 
 \begin{figure}[H]
     \centering
@@ -86,3 +87,12 @@ Where the steady state of $H_N(r)=K\delta$. We know that $n_i = \frac{b_i}{|b_1|
     \caption{1.order non-linear Nomoto model}
     \label{fig:nomoto1_nonlin}
 \end{figure}
+
+\subsubsection*{Heading model conclusion}
+Both first order models where not able to follow the overshoot and oscillations to the ship, and would therefore make a poor model. The second order model with non-linearities was hard to get good steady-state solution on, and was very hard to do curve fitting on. Which in turns means that the model preformed bad. This leaves us with the second order linear model which where easy to curve-fit to the original response, and preformed quite well. This is the model we are using through the rest of the assignment, with an added integrator for heading. 
+\begin{equation}
+    \frac{\psi}{\delta}(s) =0.03 \frac{(1+320 s)}{s(1+130 s) (1+150 s) } \\
+\end{equation}
+
+\subsubsection*{Heading control law}
+When using a linear model, the obvious choice of controller would be a PID. We have a stable ship under the influence of current, so we need at least a PI-controller.

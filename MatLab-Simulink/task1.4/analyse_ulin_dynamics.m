@@ -36,7 +36,7 @@ plot(rad2deg(F6(b_2,t)),rad2deg(t));
 xlabel('Rudder [deg]'); ylabel('Yaw rate [deg/s]');
 line([0 -25; 0 25],[-0.45 0; 0.45 0],'Color','black','LineStyle','--');
 axis([-25 25 -0.45 0.45]);
-legend('Ship characteristics','1. and 3.degree approximation','1. 2. and 3.degree approximation','Location','best');
+legend('Ship characteristics','1. and 3.degree approximation','1. 2. and 3.degree approximation','Location','East');
 text(-15,0.2,{'1. and 3. degree coefficients', ['b_3=' num2str(b_1(1),3)], ['b_1=' num2str(b_1(2),3)] });
 text(10,-0.2,{'1., 2. and 3. degree coefficients', ['b_3=' num2str(b_2(1),3)], ['b_2=' num2str(b_2(3),3)], ['b_1=' num2str(b_2(2),3)] });
 saveas(fig4,'Task1_4_Nomoto2_delta_r.eps','epsc');
@@ -51,22 +51,23 @@ legend_string = cell(length(delta_list),1);
 for i = 1:length(delta_list)
     delta_c = deg2rad(delta_list(i));
     sim MSFartoystyring;
-    x0 = [100 100 0.1]';
+    x0 = [100 160 100 0.1]';
     F7 = @(x,t) simNonLinNomoto2(x,b_2(1),b_2(3),b_2(2), delta_c, tstop, tsamp );
-    x = lsqcurvefit(F7, x0, t, r,[30 30 0],[500 500 0.3],OPT);
+    x = lsqcurvefit(F7, x0, t, r,[50 40 80 0],[inf inf inf 0.2],OPT);
     T1 = x(1);
     T2 = x(2);
-    K  = x(3);
+    T3 = x(3);
+    K  = x(4);
     plot(t, rad2deg(r),'o' )
     plot(t, rad2deg(F7(x,t)),'LineWidth',2);
-    text(300+delta_list(i)*40, 0.1,{['\delta=', num2str(delta_list(i))],['T1=',num2str(T1,3)],['T2=',num2str(T2,3)],['K=',num2str(K,3)]});
+    text(300+delta_list(i)*40, 0.1,{['\delta=', num2str(delta_list(i))],['T1=',num2str(T1,3)],['T2=',num2str(T2,3)],['T3=',num2str(T3,3)],['K=',num2str(K,3)]});
     legend_string{2*i-1} = strcat('Ship, \delta = ',   int2str(delta_list(i)));
     legend_string{2*i}   = strcat('NonLinNomoto2, \delta = ',int2str(delta_list(i)));
 end
 axis([0 tstop 0 0.55]);
 legend(legend_string);
 saveas(fig6,'Task1_4_Nomoto2_curvefit.eps','epsc');
-save('Nomoto2_curvefitting','T1','T2','K');
+save('Nomoto2_curvefitting','T1','T2','T3','K');
 
 %% Nomoto 1. ordens ulineær model
 fig7 = figure('OuterPosition',[0 0 scrsz(3)/2 scrsz(4)/2]);

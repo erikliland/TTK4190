@@ -23,7 +23,6 @@ for i = 1:length(delta_list)
     delta_c = deg2rad(delta_list(i));
     sim MSFartoystyring;
     x0 = [118 7.8 18.5 0.185]';
-    %F1 = @(x,t,delta_c) delta_c*(x(4)-(x(4)*exp(-t/x(1))*(x(1)-x(3)))/(x(1)-x(2))+(x(4)*exp(-t/x(2))*(x(2)-x(3)))/(x(1)-x(2)));
     F2 = @(x,t) simNomoto2(x, delta_c, tstop, tsamp);
     x = lsqcurvefit(F2, x0, t, r,[100 100 0 0],[300 300 400 0.2],OPT);
     T1 = x(1);
@@ -51,14 +50,13 @@ for i = 1:length(delta_list)
     sim MSFartoystyring;
     x0 = [100 0.1];
     F3 = @(x,t,delta_c) r0*exp(-t/x(1)) + x(2)* delta_c *(1 - exp(-t/x(1)));
-    %F4 = @(x,t) simNomoto1(x,delta_c, tstop, tsamp);
     F4 = @(x,t) F3(x,t,delta_c);
     x = lsqcurvefit(F4, x0, t, r,[20 0],[500 0.15],OPT);
     T = x(1);
     K = x(2);
     plot(t, rad2deg(r),'o');
     plot(t, rad2deg(F4(x,t)),'LineWidth',2);
-    text(500+delta_list(i)*30, 0.1,{['\delta=', num2str(delta_list(i))],['T=',num2str(T,3)],['K=',num2str(K,3)]});
+    text(500+delta_list(i)*40, 0.1,{['\delta=', num2str(delta_list(i))],['T=',num2str(T,3)],['K=',num2str(K,3)]});
     legend_string{2*i-1} = strcat('Ship, \delta = ',   int2str(delta_list(i)));
     legend_string{2*i}   = strcat('Nomoto1, \delta = ',int2str(delta_list(i)));
 end
