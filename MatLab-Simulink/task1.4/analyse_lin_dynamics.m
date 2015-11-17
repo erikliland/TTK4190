@@ -2,7 +2,7 @@ close all; clear all; clc; scrsz = get(groot,'ScreenSize');
 OPT = optimset('Display','off'); load('Delta_r_data');
 tstart=0;      %Sim start time
 tstop=1500;    %Sim stop time
-tsamp=10;      %Sampling time (NOT ODE solver time step)
+tsamp=20;      %Sampling time (NOT ODE solver time step)
 
 p0=zeros(2,1); %Initial position (NED)
 v0=[6.63 0]';  %Initial velocity (body)
