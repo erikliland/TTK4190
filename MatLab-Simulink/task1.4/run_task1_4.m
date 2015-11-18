@@ -40,28 +40,24 @@ for i = 0:1
     fig1 = figure('OuterPosition',[0 0 scrsz(3) scrsz(4)]);
     subplot(2,2,1); hold on; xlabel('Time [s]'); ylabel('Heading error [deg]');
     plot(t,rad2deg(psi_e_PID));
-    %plot(t,rad2deg(psi_e_PID_m),'-.')
-    legend('\psi_e','\psi_{e_m}','Location','NorthEast');
+    legend('\psi_e','Location','NorthEast');
     title('Yaw error');
 
     subplot(2,2,2); hold on; xlabel('Time [s]'); ylabel('Heading [deg]');
     plot(t,rad2deg(psi_d_f),'--');
     plot(t,rad2deg(psi));
-    %plot(t,rad2deg(psi_m),'-.');
-    legend('\psi_{d_f}','\psi','\psi_m','Location','NorthEast');
+    legend('\psi_{d_f}','\psi','Location','NorthEast');
     title('Yaw controller');
 
     subplot(2,2,3); hold on; xlabel('Time [s]'); ylabel('Yaw rate error [deg/s]');
     plot(t,rad2deg(r_e_PID));
-    %plot(t,rad2deg(r_e_PID_m),'-.');
-    legend('r_e','r_{e_m}','Location','NorthEast');
+    legend('r_e','Location','NorthEast');
     title('Yaw rate error');
 
     subplot(2,2,4); hold on; xlabel('Time [s]'); ylabel('Yaw rate [deg/s]');
     plot(t,rad2deg(r_d_PID),'--');
     plot(t,rad2deg(r));
-   % plot(t,rad2deg(r_m),'-.');
-    legend('r_d','r','r_m','Location','NorthEast');
+    legend('r_d','r','Location','NorthEast');
     title('Yaw rate controller');
     
     if i == 0
